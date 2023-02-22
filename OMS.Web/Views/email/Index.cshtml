@@ -1,0 +1,248 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Model.ViewModel.SC
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.ManageEmails;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageEmails
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ManageEmails</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+
+        <div class="box box-primary">
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EmailAddress<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.EmailAddress")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <label class="control-label">@AppResource.Attachments</label>
+                    <input type="hidden" data-bind="value:Model.Attachment" />
+                    @KOWriter.Writeuploder("AddAttachment", Url.Action("UploadFile"))
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Email<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextArea("Model.EmailBody")
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row" data-bind="foreach:Model.EmailReceiversModel">
+                        <div class="col-md-12">
+                            <input class="TagsData" type="checkbox" data-bind="value:Email" checked="checked"/>
+                            <span data-bind="text:Name"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <label class="control-label">@AppResource.EamailReceivers</label>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input class="TagsData" type="checkbox" data-bind="click:SelectAll,checked: checkselectAll" />
+                            <span>Select All</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="TagsData" type="checkbox" data-bind="click:AllCustomers,checked: customerschecked" />
+                            <span>Customers</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="TagsData" type="checkbox" data-bind="click:AllDoctors,checked: doctorschecked" />
+                            <span>Doctors</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="TagsData" type="checkbox" data-bind="click:AllEmployees,checked: employeeschecked" />
+                            <span>Employees</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="TagsData" type="checkbox" data-bind="click:AllSuppliers,checked: supplierschecked" />
+                            <span>Suppliers</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        function Controller() {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new EmailViewModel()));
+
+            self.checkselectAll = ko.observable(false);
+            self.customerschecked = ko.observable(false);
+            self.doctorschecked = ko.observable(false);
+            self.employeeschecked = ko.observable(false);
+            self.supplierschecked = ko.observable(false);
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.EmailReceiversModel = ko.viewmodel.fromModel(self.EmailReceiversModel);
+            self.Receivers = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.EmailReceivers)));
+
+            self.New = function() {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model, self.ModelJS);
+            }
+            self.AddAttachment = function(result) {
+                debugger;
+                if (result) {
+                    self.Model.AddAttachment(result.Id);
+                    self.Model.LogoPath(result.Name);
+                } else
+                    alert("Sorry, this file type is not allowed, only images");
+            }
+
+            self.SelectAll = function () {
+                ko.viewmodel.updateFromModel(self.checkselectAll, !self.checkselectAll());
+                ko.viewmodel.updateFromModel(self.customerschecked, !self.customerschecked());
+                ko.viewmodel.updateFromModel(self.doctorschecked, !self.doctorschecked());
+                ko.viewmodel.updateFromModel(self.employeeschecked, !self.employeeschecked());
+                ko.viewmodel.updateFromModel(self.supplierschecked, !self.supplierschecked());
+
+                $.ajax({
+                    type: "Get",
+                    url: "@Url.Action("FillEmailReceiversList")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        debugger;
+                        waitingDialog.hide();
+                        self.Model.EmailReceiversModel(result.data);
+                        
+                    },
+                    failure: function() {
+                        debugger;
+                    }
+                });
+
+            };
+
+        self.AllCustomers = function() {
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("GetAllCustomer")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    debugger;
+                    waitingDialog.hide();
+                    self.Model.EmailReceiversModel(result.data[0]);
+                        
+                },
+                failure: function() {
+                    debugger;
+                }
+            });
+        };
+        self.AllDoctors = function() {
+                @*$.ajax({
+                    type: "Get",
+                    url: "@Url.Action("GetAllDoctors")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        debugger;
+                        waitingDialog.hide();
+                        self.Model.EmailReceiversModel(result.data[0]);
+                        
+                    },
+                    failure: function() {
+                        debugger;
+                    }
+                });*@
+        };
+        self.AllEmployees = function() {
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("GetAllEmployees")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    debugger;
+                    waitingDialog.hide();
+                    self.Model.EmailReceiversModel(result.data[0]);
+                        
+                },
+                failure: function() {
+                    debugger;
+                }
+            });
+        };
+        self.AllSuppliers = function() {
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("GetAllSuppliers")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    debugger;
+                    waitingDialog.hide();
+                    self.Model.EmailReceiversModel(result.data[0]);
+                        
+                },
+                failure: function() {
+                    debugger;
+                }
+            });
+        };
+
+
+        self.Save = function() {
+            waitingDialog.show('Saving...');
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Save")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function(result) {
+                    waitingDialog.hide();
+
+                    if (result.Exceptions.length == 0) {
+                        ShowSuccessMessage();
+                        ko.viewmodel.updateFromModel(self.Model, result.Model);
+
+                        self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(), false);
+
+                        self.Errors([]);
+                    } else {
+                        self.Errors(result.Exceptions);
+                    }
+                },
+                failure: function() {
+                    //   alert('Fail');
+                }
+            });
+        }
+        }
+
+        $(document).ready(function() {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+        });
+    </script>
+}

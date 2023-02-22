@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>View</Title>
+      <Author>mohamed.gabr</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>beview</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Title</ID>
+          <ToolTip>Title</ToolTip>
+          <Default>Title</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>MainSection</ID>
+          <ToolTip>MainSection</ToolTip>
+          <Default>MainSection</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Model</ID>
+          <ToolTip>Model</ToolTip>
+          <Default>Model</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>SC</ID>
+          <ToolTip>SC</ToolTip>
+          <Default>SC</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="html" Delimiter="$"><![CDATA[@using LinkEgypt.Core.Backend.Models;
+@using LinkEgypt.Core.BL;
+@using LinkEgypt.Core.BL.DataAccess;
+@using LinkEgypt.Core.Backend.Utilities;
+
+@{
+    ViewBag.Title = "$Title$";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<section id="content">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                $MainSection$ /  $Title$
+
+            </header>
+            <div class="row text-sm wrapper">
+
+                <div class="col-sm-12">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail2">Name</label>
+                            <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter Name" data-bind="value:SC.Name.Value">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary btn-xs pull-right" data-bind="click:GridCtrl.Search">Search</button>
+                    </form>
+
+
+                </div>
+            </div>
+            <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+        </section>
+    </div>
+    <div class="col-sm-12">
+
+        <section class="panel">
+            <header class="panel-heading">
+              @KOWriter.WriteToolbar()
+                $Title$ Details
+            </header>
+            <div class="panel-body">
+          @KOWriter.WriteErrorMessage()
+                <form class="bs-example form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">Name</label>
+                        <div class="col-lg-3">
+                            @KOWriter.WriteTextbox("Model.Name")
+                        </div>
+                        @*<label class="col-lg-1 control-label">Title</label>
+                        <div class="col-lg-3">
+                            @KOWriter.WriteTextbox("Model.Title")
+                        </div>
+                        <label class="col-lg-1 control-label">Title (AR)</label>
+                        <div class="col-lg-3">
+                            @KOWriter.WriteTextbox("Model.TitleAr")
+                        </div>*@
+
+                    </div>
+
+
+                </form>
+            </div>
+            
+        </section>
+    </div>
+    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+</section>
+@section scripts
+{
+<script>
+    </script>
+}
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

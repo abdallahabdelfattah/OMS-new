@@ -1,0 +1,491 @@
+﻿@using OMS.Resources;
+@using OMS.Web.Globalization;
+@using OMS.Web.Utilities;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <title>@AppResource.OMS | @ViewBag.Title</title>
+
+    <link rel="icon" type="image/png" href="~/images/favicon.png" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <link href="/dist/css/summernote.css" rel="stylesheet" />
+    <link href="/dist/css/toastr.min.css" rel="stylesheet" />
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.css">
+    <link href="~/plugins/handsontable/handsontable.full.min.css" rel="stylesheet" />
+
+    @if (CultureHelper.IsArabic)
+    {
+        <link href="~/dist/css/SSTArabic.css" rel="stylesheet" />
+        <link href="~/dist/css/SymbioARLT.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/dist/css/style-ar.css">
+    }
+
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+    folder instead of downloading all of them to reduce the load. -->
+
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker
+    <link rel="stylesheet" href="/bower_components/bootstrap-daterangepicker/daterangepicker.css">-->
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+    @RenderSection("style", false)
+</head>
+<body class="skin-blue sidebar-mini">
+    <div id="wrapper" class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@Url.Action("Index", "Home")" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>OMS</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Optics</b> Management System</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="@Url.Action("Index", "Home")" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li style="padding-top:1px">
+                            <a href="@Url.Action("ChangeCulture")">
+                                @if (CultureHelper.IsArabic)
+                                {
+                                    <img src="~/images/uk-flag.png" style="width:15px" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/ksa-flag.png" style="width:15px" />
+                                }
+
+                            </a>
+                        </li>
+
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                            <a href="@Url.Action("Index", "Home")" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 10 notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                                page and may cause design problems
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-red"></i> 5 new members joined
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-user text-red"></i> You changed your username
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all</a></li>
+                            </ul>
+                        </li>
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @*<img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">*@
+                                <img src="/Uploads/@SessionRegistery.CurrentUser.ImagePath" class="user-image" alt="User Image">
+                                <span class="hidden-xs">OMS</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+
+                                    @*<img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">*@
+                                    <img src="/Uploads/@SessionRegistery.CurrentUser.ImagePath" class="img-circle" alt="User Image">
+
+                                    <p>
+                                        @AppResource.OMS
+                                        <small>@(CultureHelper.IsArabic ? SessionRegistery.CurrentUser.GroupNameAr : SessionRegistery.CurrentUser.GroupNameEn) </small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                @*<li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                         /.row
+                                    </li>*@
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        @*<a href="#" class="btn btn-default btn-flat">Profile</a>*@
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("index","login")?logout=true" class="btn btn-default btn-flat">@AppResource.Signout</a>
+                                    </div>
+                                    <div class="pull-left">
+                                        <a href="@Url.Action("index","profile")" class="btn btn-default btn-flat">@AppResource.MyProfile</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel" style="margin-top: 20px">
+                    <div class="pull-left image">
+                        <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                    </div>
+                    <div class="pull-left info">
+                        <p> System Admin</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <aside class="main-sidebar">
+                    <!-- sidebar: style can be found in sidebar.less -->
+                    <section class="sidebar" style="height: auto;">
+                        <!-- Sidebar user panel -->
+                        <div class="user-panel">
+                            <div class="pull-left image">
+                                @*<img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">*@
+                                <img src="/Uploads/@SessionRegistery.CurrentUser.ImagePath" class="img-circle" alt="User Image">
+                            </div>
+                            <div class="pull-left info">
+                                <p>@(CultureHelper.IsArabic ? SessionRegistery.CurrentUser.NameAr : SessionRegistery.CurrentUser.NameEn)</p>
+                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                            </div>
+                        </div>
+                        <!-- search form -->
+                        <form action="#" method="get" class="sidebar-form">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        <!-- /.search form -->
+                        <!-- sidebar menu: : style can be found in sidebar.less -->
+                        <ul class="sidebar-menu tree" data-widget="tree">
+                            <li class="header">MAIN NAVIGATION</li>
+                            @foreach (OMS.BLL.Repositories.MenuModel item in ViewBag.UserPages)
+                            {
+                                if (item.Children.Count > 0)
+                                {
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-@item.Icon fa-fw"></i> <span>@item.Name</span><span class="pull-right-container">
+                                                <i class="fa fa-angle-right pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <li>
+                                                    <a title="@child.Name" href="/@child.URL"> @child.Name</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a id="@string.Format("Menu{0}", item.Id)" title="@item.Name" href="/@item.URL"><i class="fa fa-dashboard"></i> <span>@item.Name</span></a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </section>
+                    <!-- /.sidebar -->
+                </aside>
+
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        @RenderBody()
+        @*<div class="content-wrapper" style="min-height: 915.8px;">
+            </div>*@
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>@AppResource.Version</b> 1.0.0
+            </div>
+            <strong>@AppResource.Copyright &copy; @System.DateTime.Now.Year <a href="#">@AppResource.OMS</a> | </strong> @AppResource.AllRightsReserved.
+        </footer>
+    </div>
+    <!-- /#wrapper -->
+
+    <template id='richeditor-template'>
+        <div id="editor" data-bind="RichEditor:Value" class="form-control" style="overflow:scroll;height:150px;max-height:150px">
+        </div>
+    </template>
+
+
+    <template id='grid-template'>
+        <div class="table-responsive" style="margin:10px">
+            <table class="table table-striped b-t text-sm">
+                <thead>
+                    <tr>
+                        <th data-bind="visible:GridCtrl.ShowCheckboxes"><input type="checkbox" data-bind="checked:GridCtrl.SelectAll" /></th>
+                        <!-- ko foreach:GridCtrl.GridColumns-->
+                        <th data-bind="click:$parent.GridCtrl.Sort">
+                            <span data-bind="text:Display" style="cursor:pointer"></span>
+                            <span class="th-sort">
+                                @*<i data-bind="visible:$parent.GridCtrl.SC.SortDir()=='desc'&&$parent.GridCtrl.SC.SortProp()==Prop()" class="fa fa-sort-down text"></i>
+                                    <i data-bind="visible:$parent.GridCtrl.SC.SortDir()=='asc'&&$parent.GridCtrl.SC.SortProp()==Prop()" class="fa fa-sort-up text"></i>*@
+                                <i class="fa fa-sort"></i>
+                            </span>
+                        </th>
+                        <!-- /ko-->
+                    </tr>
+                </thead>
+                <!-- ko if:GridCtrl.Data().length==0-->
+                <tbody>
+                    <tr class="odd"><td valign="top" data-bind="attr:{colspan:GridCtrl.GridColumns().length+1}" class="dataTables_empty" style="text-align:center;">@AppResource.NoData... </td></tr>
+                </tbody>
+                <!-- /ko -->
+                <!-- ko if:GridCtrl.Data().length>0-->
+                <tbody data-bind="foreach:{ data: GridCtrl.Data, as: 'dataitem' }">
+
+                    <tr data-bind="css: {'selected':$parent.GridCtrl.selectedItem() == $data}" class="pagedGridRow">
+                        <td data-bind="visible:$parent.GridCtrl.ShowCheckboxes"><input type="checkbox" data-bind="checkedValue:$data.ID,checked:$parent.GridCtrl.CheckedBoxesItems" /></td>
+                        <!-- ko foreach:$parent.GridCtrl.GridColumns-->
+                        <!-- ko if:$data.Type() == 'bool'-->
+                        <td data-bind="click:function(){$parents[1].GridCtrl.RowSelected(dataitem);}">
+                            <label>
+                                <input type="checkbox" data-bind="checked:dataitem[$data.Prop()]" disabled />
+                            </label>
+                        </td>
+                        <!-- /ko -->
+                        <!-- ko if:$data.Type() == 'date'-->
+                        <td data-bind="click:function(){$parents[1].GridCtrl.RowSelected(dataitem);},text:Date.create(dataitem[$data.Prop()]).format('{dd}/{MM}/{yyyy}')"></td>
+                        <!-- /ko -->
+                        <!-- ko if:$data.Type() == 'datetime'-->
+                        <td data-bind="click:function(){$parents[1].GridCtrl.RowSelected(dataitem);},text:Date.create(dataitem[$data.Prop()]).format('{dd}/{MM}/{yyyy} {HH}:{mm}')"></td>
+                        <!-- /ko -->
+                        <!-- ko if:$data.Type() != 'date'&& $data.Type() != 'datetime' && $data.Type() != 'bool'-->
+                        <td data-bind="click:function(){$parents[1].GridCtrl.RowSelected(dataitem);},text:dataitem[$data.Prop()]"></td>
+                        <!-- /ko -->
+                        <!-- /ko-->
+                    </tr>
+                </tbody>
+                <!-- /ko -->
+                <tfoot data-bind="visible:GridCtrl.ShowFooter">
+                    <tr>
+                        <td colspan="8"></td>
+                        <td style="font-weight:bold;" data-bind="text:GridCtrl.SubTotalOrdersValue"></td>
+                        <td colspan="3"></td>
+                        <td style="font-weight:bold;" data-bind="text:GridCtrl.TotalOrdersValue"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <footer>
+            <div class="row dataTables_wrapper">
+                <div class="col-sm-5">
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                        @AppResource.TotalItems:
+                        <span style="font-weight:bold" data-bind="text:GridCtrl.TotalCount()"></span>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination" style="margin:2px 0" data-bind="visible:GridCtrl.TotalPagesCount()>0">
+                            <!-- ko if:GridCtrl.PageIndex()!=1-->
+                            <li><a href="#" data-bind="click:function(){GridCtrl.GoToPage(1);}"><i class="fa fa-step-backward"></i></a></li>
+                            <li><a href="#" data-bind="click:function(){GridCtrl.GoToPage(GridCtrl.PageIndex()-1);}"><i class="fa fa-chevron-left"></i></a></li>
+                            <!-- /ko-->
+                            <!-- ko foreach: GridCtrl.PagersComputed()-->
+                            <!-- ko if:!IsCurrent-->
+                            <li><a href="#" data-bind="text:PageNo,click:function(){$data.GoToPage($data.PageNo);}"></a></li>
+                            <!-- /ko-->
+                            <!-- ko if:IsCurrent-->
+                            <li><a href="#" data-bind="text:PageNo" style="background-color:rgba(50,50,50,0.1)"></a></li>
+                            <!-- /ko-->
+                            <!-- /ko-->
+                            <!-- ko if:GridCtrl.PageIndex()!=GridCtrl.TotalPagesCount()-->
+                            <li><a href="#" data-bind="click:function(){GridCtrl.GoToPage(GridCtrl.PageIndex()+1);}"><i class="fa fa-chevron-right"></i></a></li>
+                            <li><a href="#" data-bind="click:function(){GridCtrl.GoToPage(GridCtrl.TotalPagesCount());}"><i class="fa fa-step-forward"></i></a></li>
+                            <!-- /ko-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </template>
+
+    <!-- Custom and plugin javascript -->
+    <!-- jQuery 3 -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- daterangepicker
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>-->
+    <!-- datepicker-->
+    <script src="/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.min.js"></script>
+    <!-- Select2 -->
+    <script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- AdminLTE for demo purposes
+    <script src="/dist/js/demo.js"></script>-->
+    <!-- Custom Theme JavaScript -->
+
+    <script src="@Url.Content("/Scripts/knockout-3.4.0.js")"></script>
+    <script src="@Url.Content("/Scripts/knockout.viewmodel.2.0.3.min.js")"></script>
+    <script src="@Url.Content("/Scripts/GridController.js")"></script>
+    <script src="@Url.Content("/Scripts/sugar.min.js")"></script>
+    <script src="@Url.Content("/Scripts/WaitingDialog.js")"></script>
+    <script src="@Url.Content("/Scripts/KOComponents.js")"></script>
+    <script src="@Url.Content("/scripts/moment.min.js")"></script>
+    @*<script src="@Url.Content("/scripts/bootstrap-datetimepicker.js")"></script>*@
+    <script src="@Url.Content("/Scripts/jquery.form.js")"></script>
+    <script src="@Url.Content("/Scripts/KoCustomization.js")"></script>
+    <script src="@Url.Content("/Scripts/summernote.min.js")"></script>
+    <script src="@Url.Content("/js/toastr.min.js")"></script>
+    <!--Handson Table-->>
+    <script src="~/plugins/handsontable/handsontable.full.min.js"></script>
+
+
+    <script type="text/javascript">
+        function ShowSuccessMessage() {
+            toastr.success('@AppResource.SavedSuccessfully...');
+        }
+        function ShowDeleteMessage() {
+            toastr.success('@AppResource.DeletedSuccessfully...');
+        }
+        $(document).ready(function () {
+            $('.select2').select2();
+            //Date picker
+    $('.datepicker2').datepicker({
+      autoclose: true
+    })
+
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "progressBar": true,
+                "preventDuplicates": true,
+                "positionClass": "toast-bottom-left",
+                "onclick": null,
+                "showDuration": "30000",
+                "hideDuration": "1500",
+                "timeOut": "3000",
+                "extendedTimeOut": "3000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
+            $("input").attr("autocomplete", "off");
+        });
+
+    </script>
+    <script>
+        //var $loading = $('#loading').hide();
+        waitingDialog.hide();
+        //Attach the event handler to any element
+        $(document)
+            .ajaxStart(function () {
+                //ajax request went so show the loading image
+                waitingDialog.show('@AppResource.Processing...');
+                //$loading.show();
+            })
+            .ajaxStop(function () {
+                //got response so hide the loading image
+                //$loading.hide();
+                waitingDialog.hide();
+            });
+    </script>
+
+    @RenderSection("scripts", false)
+</body>
+</html>

@@ -1,0 +1,645 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Web.Globalization;
+@using OMS.Resources;
+@using OMS.Model.SystemEnums;
+@{
+    ViewBag.Title = AppResource.ManageUsers;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+@section style
+{
+    <link rel="stylesheet" href="/plugins/timepicker/bootstrap-timepicker.min.css">
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageUsers
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.UsersAndRoles</a></li>
+            <li class="active">@AppResource.ManageUsers</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @KOWriter.WriteToolbar()
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DocNo<span style="color:red;"></span></label>
+                        @KOWriter.WriteTextbox("Model.Code", ",enable:false")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class=" control-label">@AppResource.Nationality</label>
+                        @KOWriter.WriteDropDown("Model.NationalityId", "Nationalities", "Name", "Id", $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DateOfBirth<span style="color:red;"></span></label>
+                        @KOWriter.WriteDatePicker("Model.DateOfBirth")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.IdentityNo<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.IdentityNo")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Qualification<span style="color:red;"></span></label>
+                        @KOWriter.WriteTextbox("Model.Qualification")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.GraduationYear<span style="color:red;"></span></label>
+                        @KOWriter.WriteTextbox("Model.GraduationYear")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Skills<span style="color:red;"></span></label>
+                        @KOWriter.WriteTextbox("Model.Skills")
+                    </div>
+                </div>
+
+                <br style="clear:both" /><br />
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>@AppResource.WorkData</legend>
+
+                        <div class="col-lg-9">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.WorkEmail<span style="color:red;">*</span></label>
+                                    @KOWriter.WriteTextbox("Model.WorkEmail")
+                                </div>
+                            </div>
+                            <br style="clear:both" />
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.Job<span style="color:red;"></span></label>
+                                    @KOWriter.WriteDropDown("Model.JobId", "Jobs", "Name", "Id", $",optionsCaption:\"{AppResource.Select}\"")
+                                    @KOWriter.WriteTextbox("Model.JobId")
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.JoiningDate<span style="color:red;"></span></label>
+                                    @KOWriter.WriteDatePicker("Model.JoiningDate")
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <legend>@AppResource.WokingHours</legend>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <legend>@AppResource.MorningShift</legend>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@AppResource.From<span style="color:red;"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                        <input type="text" data-bind="value:Model.MorningFrom" class="form-control timepicker">
+                                                    </div>
+                                                    @*@KOWriter.WriteTextArea("Model.MorningFrom")*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@AppResource.To<span style="color:red;"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                        <input type="text" data-bind="value:Model.MorningTo" class="form-control timepicker">
+                                                    </div>
+                                                    @*@KOWriter.WriteTextbox("Model.MorningTo")*@
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <legend>@AppResource.EveningShift</legend>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@AppResource.From<span style="color:red;"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                        <input type="text" data-bind="value:Model.EveningFrom" class="form-control timepicker">
+                                                    </div>
+                                                    @*@KOWriter.WriteTextbox("Model.EveningFrom")*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@AppResource.To<span style="color:red;"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                        <input type="text" data-bind="value:Model.EveningTo" class="form-control timepicker">
+                                                    </div>
+                                                    @*@KOWriter.WriteTextbox("Model.EveningTo")*@
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">@AppResource.UserBranches</label>
+                            <div class="row" data-bind="foreach:AllBranches">
+                                <div class="col-md-6">
+                                    <input class="TagsData" type="checkbox" data-bind="checked:Selected,value:Name" />
+                                    <span data-bind="text:Name"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <br style="clear:both" /><br />
+
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>@AppResource.UserContacts</legend>
+
+                        <div class="col-lg-9">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.Email<span style="color:red;">*</span></label>
+                                    @KOWriter.WriteTextbox("Model.Email")
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.HomePhone<span style="color:red;"></span></label>
+                                    @KOWriter.WriteTextbox("Model.HomePhone")
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.Mobile<span style="color:red;">*</span></label>
+                                    @KOWriter.WriteTextbox("Model.Mobile")
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">@AppResource.Address</label>
+                                    @KOWriter.WriteTextArea("Model.Address")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="hidden" data-bind="value:Model.LogoId" />
+                                    <img class="inline-block mb-10" style="height: 270px;border: 1px solid #eee;padding: 20px;margin-top:20px"
+                                         data-bind="attr:{src: Model.ImagePath() == null ? '/Uploads/temp.png':'/Uploads/' + Model.ImagePath()}" /><br />
+                                    <label class="control-label">@AppResource.UserImage</label>
+                                    @KOWriter.Writeuploder("AfterFileuploaded", Url.Action("UploadFile"))
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+                <br style="clear:both" /><br />
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>@AppResource.UserAccount</legend>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Username<span style="color:red;">*</span></label>
+                                @KOWriter.WriteTextbox("Model.UserName")
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class=" control-label">@AppResource.Group</label>
+                                <select id="ddlGroups" class='form-control' data-bind='value:Model.GroupId,options:Groups,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select", event:{ change: groupChanged}'></select>
+                                @*@KOWriter.WriteDropDown("Model.GroupId", "Groups", "Name", "Id", $",optionsCaption:\"{AppResource.Select}\"" + ",event: { change: groupChanged }")*@
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class=" control-label">@AppResource.Password<span style="color:red;">*</span></label>
+                                @KOWriter.WritePasswordTextbox("Model.Password")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.ConfirmPassword<span style="color:red;">*</span></label>
+
+                                @KOWriter.WritePasswordTextbox("Model.ConfirmPassword")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Status</label>
+                                @KOWriter.WriteDropDown("Model.Status", "UserStatuses", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <br style="clear:both" />
+                <br />
+                <!--ko foreach:SystemPages-->
+                <!--ko if: Children().length > 0-->
+                <section class="panel panel-primary" data-bind="style:{display:Children().length>0?'block':'none'}">
+                    <header class="panel-heading" data-bind="text:@(CultureHelper.IsArabic? "NameAr":"NameEn")"></header>
+                    <div class="panel-body" data-bind="foreach:Children">
+                        <div class="row form-inline" style="margin:5px;">
+                            <div class="col-lg-5">
+                                <label data-bind="text:@(CultureHelper.IsArabic? "NameAr":"NameEn"),value:Id">
+                                </label>
+                                <!--ko if:InGroup()-->
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <!--/ko-->
+                            </div>
+
+                            <select class="form-control" data-bind="value:Mode,options:$root.UserPageActions,optionsValue:'Id',optionsText:'Name'"></select>
+                        </div>
+                    </div>
+                </section>
+                <!--/ko-->
+                <!--ko if: Children().length == 0  -->
+
+                <section class="panel panel-primary">
+                    <header class="panel-heading" data-bind="text:@(CultureHelper.IsArabic? "NameAr":"NameEn"),value:Id"></header>
+                    <!--ko if:InGroup()-->
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <!--/ko-->
+                    <select class="form-control" data-bind="value:Mode,options:$root.UserPageActions,optionsValue:'Id',optionsText:'Name'"></select>
+                </section>
+                <!--/ko-->
+                <!--/ko-->
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts
+{
+    <script src="/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script>
+        //Timepicker
+    $('.timepicker').timepicker({
+      showInputs: false
+    })
+
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new UserModel()));
+            self.UserPageActions =  @Html.Raw(Json.Encode(ViewBag.UserPageActions));
+            self.UserStatuses =  @Html.Raw(Json.Encode(ViewBag.UserStatuses));
+            self.Nationalities = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Nationalities)));
+            self.Jobs = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Jobs)));
+            self.AllBranches = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Branches)));
+            self.Groups =  @Html.Raw(Json.Encode(ViewBag.Groups));
+            self.SystemPages = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.SystemPages)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new UserSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")",self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.ArabicName","NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName","NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Username","UserName");
+            self.GridCtrl.AddColumn("@AppResource.Email","Email");
+            self.GridCtrl.AddColumn("@AppResource.Group", @Html.Raw(CultureHelper.IsArabic? "'GroupNameAr'":"GroupNameEn"));
+            self.AfterFileuploaded = function (result) {
+
+                if (result) {
+                    self.Model.ImageId(result.Id);
+                    self.Model.ImagePath(result.Name);
+                }
+                else
+                    alert("Sorry, this file type is not allowed, only images");
+            }
+
+            self.groupChanged = function () {
+
+                var sc={GroupId :self.Model.GroupId(),UserId:self.Model.Id(),PageIndex:1, RowCount:10};
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GroupActions")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data:ko.toJSON(sc),
+                    success: function (result) {
+
+                        for (var i = 0; i < self.SystemPages().length; i++) {
+                            for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                                var sp = self.SystemPages()[i].Children()[j];
+                                sp.InGroup(false);
+                            }
+                        }
+
+
+                        for (var i = 0; i < self.SystemPages().length; i++) {
+                            for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                                var sp = self.SystemPages()[i].Children()[j];
+                                for (var k = 0; k < result.Data.length; k++)
+                                {
+                                    if (sp.Id()==result.Data[k].PageActionId)
+                                    {
+                                        sp.InGroup(true);
+                                    }
+                                }
+
+
+                            }
+                        }
+                    },
+                    failure: function () {
+                        alert('Fail');
+                    }
+                });
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDocumentNumber")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    self.Model.Code(result);
+                },
+                failure: function () {
+                }
+            });
+
+            self.New= function()
+            {   self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+                self.Model.PageActionsModes([]);
+                for (var i = 0; i < self.SystemPages().length; i++) {
+
+                    for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                        var sp = self.SystemPages()[i].Children()[j];
+                        sp.Mode(@((int)PageActionMode.FromGroup))
+                    }
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetDocumentNumber")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        self.Model.Code(result);
+                    },
+                    failure: function () {
+                    }
+                });
+            }
+
+            self.Save = function ()
+            {
+                self.Model.PageActionsModes([]);
+                for (var i = 0; i < self.SystemPages().length; i++) {
+                    if (self.SystemPages()[i].Children().length > 0) {
+                        for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                            var sp = self.SystemPages()[i].Children()[j];
+                            if (sp.Mode() !=@((int)PageActionMode.FromGroup))
+                                self.Model.PageActionsModes.push({ PageActionId: sp.Id(), Mode: sp.Mode() });
+                        }
+                    } else {
+                        var sp = self.SystemPages()[i];
+                        if (sp.Mode() !=@((int)PageActionMode.FromGroup))
+                            self.Model.PageActionsModes.push({ PageActionId: sp.Id(), Mode: sp.Mode() });
+                    }
+                }
+
+                self.Errors([]);
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        //waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.Delete  = function()
+            {
+                if(confirm('@AppResource.DeleteConfirmationMsg'))
+                {
+                    //waitingDialog.show('Deleting...');
+
+                    self.Errors([]);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete")",
+                        dataType: "json",
+                        data: {Id:self.Model.Id()} ,
+                        success: function (result) {
+                            //waitingDialog.hide();
+                            if(result.Exceptions.length==0)
+                            {
+                                ShowDeleteMessage();
+                                self.New();
+                                self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+                            }
+                            else
+                            {
+                                self.Errors(result.Exceptions);
+                            }
+                        },
+                        failure: function () {
+                            //   alert('Fail');
+                        }
+                    });
+                }
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                //self.groupChanged();
+                debugger;
+                self.Errors([]);
+                var item=selectedrow.Id;
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:item} ),
+                    success: function (result) {
+                        for (var i = 0; i < self.SystemPages().length; i++) {
+                            if (self.SystemPages()[i].Children().length > 0) {
+                                for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                                    var sp = self.SystemPages()[i].Children()[j];
+                                    sp.Mode(@((int)PageActionMode.FromGroup));
+                                }
+                            }
+                            else {
+                                  var sp = self.SystemPages()[i];
+                                    sp.Mode(@((int)PageActionMode.FromGroup));
+                            }
+                        }
+
+                        //waitingDialog.hide();
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+                        for (var i = 0; i < self.AllBranches().length; i++) {
+                            self.AllBranches()[i].Selected(self.Model.UserBranches().find(function (cat) {
+                                return self.AllBranches()[i].Id() == cat.Id();
+                            }) != undefined);
+                        }
+
+                        for (var k = 0; k < result.Data[0].PageActionsModes.length; k++) {
+                            var useraction = result.Data[0].PageActionsModes[k];
+
+                            for (var i = 0; i < self.SystemPages().length; i++) {
+                                if (self.SystemPages()[i].Children().length > 0) {
+                                    for (var j = 0; j < self.SystemPages()[i].Children().length; j++) {
+                                        var sp = self.SystemPages()[i].Children()[j];
+                                        if (sp.Id() == useraction.PageActionId) {
+                                            sp.Mode(useraction.Mode);
+                                            break;
+                                        }
+
+                                    }
+                                } else {
+                                    var sp = self.SystemPages()[i];
+                                    if (sp.Id() == useraction.PageActionId) {
+                                        sp.Mode(useraction.Mode);
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }
+                        //self.groupChanged();
+                        $("#ddlGroups").change();
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+
+    </script>
+}
+

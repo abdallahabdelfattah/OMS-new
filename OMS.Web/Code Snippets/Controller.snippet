@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Controller</Title>
+      <Author>mohamed.gabr</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>bectrl</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Product</ID>
+          <ToolTip>Product</ToolTip>
+          <Default>Entity</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ProductSC</ID>
+          <ToolTip>ProductSC</ToolTip>
+          <Default>EntitySC</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ProductBL</ID>
+          <ToolTip>ProductBL</ToolTip>
+          <Default>EntityBL</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ProductSummaryModel</ID>
+          <ToolTip>ProductSummaryModel</ToolTip>
+          <Default>EntitySummaryModel</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ProductModel</ID>
+          <ToolTip>ProductModel</ToolTip>
+          <Default>EntityModel</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using LinkEgypt.Core.Backend.Models;
+using LinkEgypt.Core.BL;
+using LinkEgypt.Core.BL.DataAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace LinkEgypt.Core.Backend.Controllers
+{
+    public class $Product$Controller : BaseController
+    {
+        // GET: $Product$
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public JsonResult List($ProductSC$ sc)
+        {
+            using ($ProductBL$ bl = new $ProductBL$())
+            {
+                var result = bl.Search(sc);
+
+                return Json(new { TotalCount = result.TotalCount, Data = result.Result.Select(p => new $ProductSummaryModel$(p)).ToList() });
+            }
+        }
+
+        public JsonResult Details($ProductSC$ sc)
+        {
+            using ($ProductBL$ bl = new $ProductBL$())
+            {
+                var result = bl.Search(sc);
+
+                return Json(new { TotalCount = result.TotalCount, Data = result.Result.Select(p => new $ProductModel$(p)).ToList() });
+            }
+        }
+
+        public JsonResult Save($ProductModel$ model)
+        {
+            using ($ProductBL$ bl = new $ProductBL$())
+            {
+                var entity = model.ID>0?bl.Find(model.ID):new $Product$();
+                if(entity ==null)
+                {
+                    entity = new $Product$();
+                }
+                model.FillEntity(entity);
+
+                try
+                {
+                    bl.Save(entity);
+
+                    return Json(new {  Model = new $ProductModel$(new $ProductBL$().Find(entity.ID)), Exceptions = new List<string>() });
+                }
+                catch (BL.BusinessException bexp)
+                {
+                    return Json(new { Model = model, Exceptions = bexp.Exceptions });
+                }
+                catch (Exception ex)
+                {
+                    List<string> lstExceptions = new List<string>();
+                    lstExceptions.Add(ex.Message);
+                    return Json(new { Model = model, Exceptions = lstExceptions });
+
+                }
+            }
+        }
+
+        public JsonResult Delete(long ID)
+        {
+            using ($ProductBL$ bl = new $ProductBL$())
+            {
+                
+                try
+                {
+                    bl.Delete(ID);
+
+                    return Json(new { Exceptions = new List<string>() });
+                }
+                catch (BL.BusinessException bexp)
+                {
+                    return Json(new { Exceptions = bexp.Exceptions });
+                }
+                catch (Exception ex)
+                {
+                    List<string> lstExceptions = new List<string>();
+                    lstExceptions.Add(ex.Message);
+                    return Json(new { Exceptions = lstExceptions });
+
+                }
+            }
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

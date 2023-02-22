@@ -1,0 +1,236 @@
+﻿@using SmartERP.Managment.Models;
+@using SmartERP.BL;
+@using SmartERP.Managment.Utilities;
+
+@{
+    ViewBag.Title = "User Profile";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div id="content">
+    <!-- Title -->
+    <div class="row heading-bg">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h5 class="txt-dark">User Profile</h5>
+        </div>
+        <!-- Breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#"><span>Settings</span></a></li>
+                <li class="active"><span>User Profile</span></li>
+            </ol>
+        </div>
+        <!-- /Breadcrumb -->
+    </div>
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>User Profile Details</h5>
+            @*@KOWriter.WriteToolbar()
+        <div class='pull-right'>
+            <div class='doc-buttons'>
+                <a href='#' class='btn btn-primary btn-xs toolbarBtn' data-bind='click:Save'>Save</a>
+            </div>
+        </div>*@
+        </div>
+        <div class="ibox-content" id="scrollTo">
+            @KOWriter.WriteErrorMessage()
+            <!-- Row -->
+            <div class="row">
+                <div class="col-lg-3 col-xs-12">
+                    <div class="panel panel-default card-view  pa-0">
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body  pa-0">
+                                <div class="profile-box">
+                                    <div class="profile-cover-pic">
+                                        @*<div class="fileupload btn btn-default">
+                                                <span class="btn-text">edit</span>
+                                                <input class="upload" type="file">
+                                            </div>*@
+                                        <div class="profile-image-overlay"></div>
+                                    </div>
+                                    <div class="profile-info text-center">
+                                        <div class="profile-img-wrap">
+                                            @if (!string.IsNullOrWhiteSpace(SmartERP.Managment.Utilities.SessionRegistery.CurrentUser.ImageURL))
+                                            {
+                                                <img class="inline-block mb-10" data-bind="attr:{src: '/Uploads/Profile/' + Model.ImageURL()}" />
+                                            }
+                                            else
+                                            {
+                                                <img class="inline-block mb-10" src="@Url.Content("~/img/avatar.png")" />
+                                            }
+
+                                            <div class="fileupload btn btn-default">
+                                                <span class="btn-text">edit</span>
+                                                @*<input class="upload" type="file" />*@
+                                                @KOWriter.Writeuploder("AfterFileuploaded", Url.Action("UploadFile"))
+                                            </div>
+                                        </div>
+                                        <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-success">@(SmartERP.Managment.Utilities.SessionRegistery.CurrentUser.Name)</h5>
+                                        <h6 class="block capitalize-font pb-20">@(SmartERP.Managment.Utilities.SessionRegistery.CurrentUser.GroupName)</h6>
+                                    </div>
+                                    <div class="social-info">
+                                        <div class="row">
+                                            <div class="col-xs-12 text-center">
+                                                <span class="counts-text block">@(SmartERP.Managment.Utilities.SessionRegistery.CurrentUser.JobName)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-xs-12">
+                    <form action="#">
+                        <div class="form-body overflow-hide">
+                            <div class="form-group">
+                                <label class="control-label mb-10" for="exampleInputuname_01">Name</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="icon-user"></i></div>
+                                    <input type="text" data-bind='value:Model.Name' class="form-control" id="exampleInputuname_01" placeholder="User Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label mb-10" for="exampleInputEmail_01">Email address</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="icon-envelope-open"></i></div>
+                                    <input type="email" data-bind='value:Model.Email' class="form-control" id="exampleInputEmail_01" placeholder="xyz@gmail.com">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label mb-10" for="exampleInputContact_01">Job</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                    <input type="text" data-bind='value:Model.JobName' class="form-control" disabled="disabled" id="exampleInputContact_01" placeholder="System User">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label mb-10" for="exampleInputpwd_01">Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
+                                    <input type="password" data-bind='value:Model.Password' class="form-control" id="exampleInputpwd_01" placeholder="Enter pwd" value="password" />
+                                    <span class="input-group-btn">
+                                        <button id="show_password" class="btn btn-secondary" type="button">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions mt-10">
+                            <button class="btn btn-success btn-anim mt-30" type="button" data-bind='click:Save'><i class="fa fa-pencil"></i><span class="btn-text">edit profile</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new ProfileModel()));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new UserSC() { UserID = SessionRegistery.CurrentUser.ID })));
+
+            self.CheckAuthentication = function()
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CheckAuthentication")",
+                    dataType: "json",
+                    success: function (result) {
+
+                    if(result.Result=="OK")
+                    {
+                        self.LoadProfile();
+                    }
+                    else if(result.Result=="Error")
+                    {
+                        window.location.href = "@Url.Action("index","login")?logout=true";
+                    }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.CheckAuthentication();
+
+            self.LoadProfile = function () {
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("LoadProfile")",
+                data: { UserID: self.SC.UserID() },
+                dataType: "json",
+                success: function (result) {
+                    ko.viewmodel.updateFromModel(self.Model, result.Data);
+                },
+                failure: function () {
+                    //   alert('Fail');
+                }
+                });
+            }
+            self.AfterFileuploaded = function (result) {
+                //alert(self.Model.ImageURL(result));
+                if (result.length > 0) {
+                    debugger;
+                    self.Model.ImageURL(result);
+                }
+                else
+                    alert("Sorry, this file type is not allowed, only images");
+            }
+            self.Save  = function()
+            {
+                waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+
+            $('#show_password').hover(function functionName() {
+                //Change the attribute to text
+                $('#exampleInputpwd_01').attr('type', 'text');
+                $('.glyphicon').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+            }, function () {
+                //Change the attribute back to password
+                $('#exampleInputpwd_01').attr('type', 'password');
+                $('.glyphicon').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            }
+            );
+        });
+    </script>
+}

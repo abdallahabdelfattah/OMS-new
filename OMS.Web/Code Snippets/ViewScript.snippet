@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>ViewScript</Title>
+      <Author>mohamed.gabr</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>beviewscript</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Model</ID>
+          <ToolTip>Model</ToolTip>
+          <Default>Model</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>SC</ID>
+          <ToolTip>SC</ToolTip>
+          <Default>SC</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="javascript" Delimiter="$"><![CDATA[function Controller()
+    {
+        var self = this;
+        self.Errors = ko.viewmodel.fromModel([]);
+        self.ModelJS = @Html.Raw(Json.Encode(new $Model$()));
+        self.Model = ko.viewmodel.fromModel(self.ModelJS);
+        self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new $SC$(){PageIndex=1, RowCount = 10  })));
+    self.GridCtrl = new GridController("@Url.Action("List")",self.SC);
+    self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+    self.GridCtrl.AddColumn("Name","Name");
+    self.New = function()
+    {
+        ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+    }
+    self.Save  = function()
+    {
+        waitingDialog.show('Saving...');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Save")",
+            contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: ko.toJSON(self.Model),
+        success: function (result) {
+            waitingDialog.hide();
+            if(result.Exceptions.length==0)
+            {
+                ko.viewmodel.updateFromModel(self.Model,result.Data);
+            }
+            else
+            {
+                self.Errors(result.Exceptions);
+            }
+        },
+        failure: function () {
+            //   alert('Fail');
+        }
+    });
+    }
+
+    self.Delete  = function()
+    {
+        waitingDialog.show('Deleting...');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete")",
+        dataType: "json",
+        data: {ID:self.Model.ID()} ,
+        success: function (result) {
+            waitingDialog.hide();
+            if(result.Exceptions.length==0)
+            {
+                self.New();
+            }
+            else
+            {
+                self.Errors(result.Exceptions);
+            }
+        },
+        failure: function () {
+            //   alert('Fail');
+        }
+    });
+    }
+
+    self.OnGridRowSelected = function(selectedrow)
+    {
+        waitingDialog.show('Loading...');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Details")",
+            contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: ko.toJSON({CategoryID:selectedrow.ID,RowCount:0} ),
+        success: function (result) {
+            waitingDialog.hide();
+            ko.viewmodel.updateFromModel(self.Model,result.Data[0]);
+        },
+        failure: function () {
+            //   alert('Fail');
+        }
+    });
+    }
+    self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new Controller(),document.getElementById("content"));
+    });
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -1,0 +1,15 @@
+﻿{
+  "RootNamespace": "MedicalLens",
+  "ServerTypings": {
+    "LocalTexts": true
+  },
+  "Restore": {
+    "Exclude": [
+      "/wwwroot/Scripts/serenity/Serenity.CoreLib*.*"
+    ]
+  },
+  "UpgradeInfo": {
+    "InitialType": "Community",
+    "InitialVersion": "5.0.49.2"
+  }
+}

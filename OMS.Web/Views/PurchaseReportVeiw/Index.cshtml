@@ -1,0 +1,122 @@
+﻿@using OMS.Model.ViewModel
+@using OMS.Model.ViewModel.SC
+@using OMS.Resources
+@using OMS.Web.Utilities
+
+@{
+    ViewBag.Title = AppResource.PurchaseReport;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.PurchaseReport
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li class="active">@AppResource.PurchaseReport</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.FromDate</label>
+                        @KOWriter.WriteDatePicker("SC.FromDate")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.ToDate</label>
+                        @KOWriter.WriteDatePicker("SC.ToDate")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Code</label>
+                        <input class="form-control" placeholder="@AppResource.EnterCode" data-bind="value:SC.ProductCode">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Supplier</label>
+                        @KOWriter.WriteDropDown("SC.SupplierId", "Suppliers", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Warehouse</label>
+                        @KOWriter.WriteDropDown("SC.WarehouseId", "Warehouse", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new PurchaseReportViewViewModel()));
+            self.Categories= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Categories)));
+            self.Suppliers= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Suppliers)));
+            self.Warehouse= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Warehouses)));
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new PurchaseReportViewSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")",self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.Code", "ProductCode");
+            self.GridCtrl.AddColumn("@AppResource.Product", "productName");
+            self.GridCtrl.AddColumn("@AppResource.Qty", "ProductQty");
+            self.GridCtrl.AddColumn("@AppResource.PurchasePrice", "ProductPurchasePrice");
+            self.GridCtrl.AddColumn("@AppResource.ChangeRate","ProductChangeRate");
+            self.GridCtrl.AddColumn("@AppResource.Supplier","SupplierName");
+            self.GridCtrl.AddColumn("@AppResource.Warehouse", "WarehouseName")
+            self.GridCtrl.AddColumn("@AppResource.Address", "WarehouseAddress");
+            self.GridCtrl.AddColumn("@AppResource.Date", "CreatedOn");
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+    </script>
+}

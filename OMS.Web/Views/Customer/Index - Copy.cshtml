@@ -1,0 +1,607 @@
+﻿@using OMS.Model;
+@using OMS.BLL;
+@using OMS.BLL.Utilities;
+@using OMS.Model.ViewModel
+@using OMS.Web.Utilities
+
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div id="content">
+    <!-- Title -->
+    <div class="row heading-bg">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h5 class="txt-dark">Customers</h5>
+        </div>
+        <!-- Breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#"><span>Setup Data</span></a></li>
+                <li class="active"><span>Customers</span></li>
+            </ol>
+        </div>
+        <!-- /Breadcrumb -->
+    </div>
+    <form role="form" data-bind="submit:GridCtrl.Search">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Search</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Customer Code</label>
+                            <input type="text" class="form-control" placeholder="Enter Customer Code" data-bind="value:SC.Code">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Customer Name" data-bind="value:SC.CustomerName">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Area</label>
+                            @KOWriter.WriteDropDown("SC.CityID", "SearchCities", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Region</label>
+                            @KOWriter.WriteDropDown("SC.RegionID", "SearchRegions", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Customer Type</label>
+                            @KOWriter.WriteDropDown("SC.CustomerTypeID", "CustomerTypes", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ibox-tools pull-right">
+                        <button class="btn btn-success btn-xs pull-right" data-bind="click:Export" style="margin-left:5px;margin-right:5px">
+                            <i class="fa fa-file-excel-o" style="margin-left:5px;margin-right:5px"></i>
+                            Export
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-xs pull-right">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>List</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+        </div>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Details</h5>
+            @*@KOWriter.WriteToolbar()*@
+            <div class='pull-right'>
+                <div class='doc-buttons'>
+                    <a href='#' class='btn btn-success btn-xs toolbarBtn' data-bind='click:New'>New</a>
+                    <a href='#' class='btn btn-primary btn-xs toolbarBtn' data-bind='click:Save'>Save</a>
+                    @*<a href='#' class='btn btn-danger btn-xs toolbarBtn' data-bind='visible:Model.ID()>0,click:Delete'>Remove</a>*@
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content" id="scrollTo">
+            @KOWriter.WriteErrorMessage()
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">Code</label>
+                        @KOWriter.WriteLabel("Model.Code")
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">Customer Name<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.CustomerName")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">Customer Type<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.TypeID", "CustomerTypes", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Phone</label>
+                                @KOWriter.WriteDecimalTextbox("Model.Phone")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Mobile<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDecimalTextbox("Model.Mobile")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Fax No</label>
+                                @KOWriter.WriteTextbox("Model.FaxNo", additionalKOattributes: ",class:NumericOnly")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Email<span style="color:red;">*</span></label>
+                                @KOWriter.WriteTextbox("Model.Email")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">CR Number</label>
+                                @KOWriter.WriteTextbox("Model.CRNo")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Debit Limit</label>
+                                @KOWriter.WriteTextbox("Model.DebitLimit", additionalKOattributes: ",class:NumericOnly")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Country<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDropDown("Model.CountryID", "Countries", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Area<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDropDown("Model.CityID", "Cities", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Region<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDropDown("Model.RegionID", "Regions", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">Governorate<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDropDown("Model.GovernorateID", "Governorates", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">App Tax</label>
+                                @KOWriter.WriteTextbox("Model.AppTax")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Tax No</label>
+                                @KOWriter.WriteTextbox("Model.TaxNo")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">AccountNo</label>
+                                @KOWriter.WriteLabel("Model.AccountNo", ",enable:false")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Openning Balance</label>
+                                @KOWriter.WriteTextbox("Model.OpenningBalance", ",enable:false")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Balance</label>
+                                @KOWriter.WriteTextbox("Model.Balance", ",enable:false")
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <label class="control-label">Customer Products</label>
+                    <div class="row">
+                        <div class="col-md-12" data-bind="foreach:AllProducts">
+                            <div class="col-md-6">
+                                <input class="TagsData" type="checkbox" data-bind="checked:Selected,value:Name" />
+                                <span data-bind="text:Name"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">Address</label>
+                        @KOWriter.WriteTextArea("Model.Address")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Contact Persons</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="tab-pane">
+                <div class="panel-body">
+                    <button class="btn btn-sm btn-primary pull-right" data-bind="click:AddNewContact" style="margin-bottom:5px;" aria-hidden="true">Add</button>
+                    <br />
+                    <table class="table table-bordered table-responsive m-b-none text-sm">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Name<span style="color:red;">*</span></th>
+                                <th>Email<span style="color:red;">*</span></th>
+                                <th>Mobile 1<span style="color:red;">*</span></th>
+                                <th>Mobile 2</th>
+                                <th width="30"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:ContactsComputed">
+                            <tr>
+                                <td>@KOWriter.WriteTextbox("Title")</td>
+                                <td>@KOWriter.WriteTextbox("Name")</td>
+                                <td>@KOWriter.WriteTextbox("Email")</td>
+                                <td>@KOWriter.WriteTextbox("Mobile1")</td>
+                                <td>@KOWriter.WriteTextbox("Mobile2")</td>
+                                <td> <button class="btn btn-sm btn-danger" data-bind="click: $root.RemoveFromContacts" style="margin-bottom:5px;" aria-hidden="true"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new CustomerModel()));
+            self.CustomerTypes= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.CustomerTypes)));
+            self.Countries= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Countries)));
+            self.SearchCities = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.SearchCities)));
+            self.Cities = ko.observableArray([]);
+            self.Regions = ko.observableArray([]); 
+            self.Governorates = ko.observableArray([]); 
+
+            
+
+
+            self.SearchRegions = ko.observableArray([]); 
+            self.AllProducts = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.AllProducts)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new CustomerSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("Code", "Code");
+            self.GridCtrl.AddColumn("Name", "CustomerName");
+            self.GridCtrl.AddColumn("Email", "Email");
+            self.GridCtrl.AddColumn("Mobile", "Mobile");
+            self.GridCtrl.AddColumn("Area", "CityName");
+            self.GridCtrl.AddColumn("Region", "RegionName");
+            self.GridCtrl.AddColumn("Governorate","GovernorateName");
+
+
+            self.New = function()
+            {
+                self.Errors([]);
+                for (var i = 0; i < self.AllProducts().length; i++) {
+                    self.AllProducts()[i].Selected(false);
+                }
+
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+            }
+
+            self.ContactsComputed = ko.computed(function () {
+                return self.Model.ContactPersons();
+            });
+            self.AddNewContact=function()
+            {
+                var EmptyDetailModel=ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new ContactPersonModel())));
+                self.Model.ContactPersons.push(EmptyDetailModel);
+            }
+            self.RemoveFromContacts = function (contact) {
+                if (contact.ID() == 0) {
+                    self.Model.ContactPersons.remove(contact);
+                }
+            }
+
+            self.Model.CountryID.subscribe(function (newvalue)
+            {
+                
+                if (newvalue == undefined || newvalue == null) {
+                    self.Cities([]);
+                    return;
+                }
+                waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CitySearch")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ CountryID: newvalue }),
+                    success: function (result) {
+                        waitingDialog.hide();
+                        self.Cities(result);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            });
+            self.Model.CityID.subscribe(function (newvalue)
+            {
+                debugger;
+                if (newvalue == undefined || newvalue == null) {
+                    self.Regions([]);
+                    return;
+                }
+                waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("FillRegions")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({CityID: newvalue }),
+                    success: function (result) {
+                        waitingDialog.hide();
+                        self.Regions(result);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            });
+            self.Model.RegionID.subscribe(function (newvalue)
+            {
+                debugger;
+                if (newvalue == undefined || newvalue == null) {
+                    self.Governorates([]);
+                    return;
+                }
+                waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("FillGovernorates")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({RegionID: newvalue }),
+                    success: function (result) {
+                        waitingDialog.hide();
+                        self.Governorates(result);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            });
+            self.SC.CityID.subscribe(function (newvalue)
+            {
+                if (newvalue == undefined || newvalue == null) {
+                    self.SearchRegions([]);
+                    return;
+                }
+                waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("FillRegions")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({CityID: newvalue }),
+                    success: function (result) {
+                        waitingDialog.hide();
+                        self.SearchRegions(result);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            });
+            self.Save  = function()
+            {
+                self.Model.Products([]);
+                for (var i = 0; i < self.AllProducts().length; i++) {
+                    if (self.AllProducts()[i].Selected() == true) {
+                        self.Model.Products.push(self.AllProducts()[i]);
+                    }
+                }
+
+
+                waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(), false);
+                            //ko.viewmodel.updatefromModel(self.AllProducts, result.AllProducts);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.Export = function()
+            {
+                debugger;
+                var url = "@Url.Action("Export")?";
+                if (self.SC.CustomerName() != "" && self.SC.CustomerName() !=null)
+                {
+                    url += "CustomerName=" + self.SC.CustomerName();
+                }
+                if (self.SC.Code()  != "" && self.SC.Code() !=null)
+               {
+                    url += "&Code=" + self.SC.Code();
+                }
+                if (self.SC.CityID() > 0 && self.SC.CityID()  != null) {
+                    url += "&CityID=" + self.SC.CityID() ;
+                }
+                if (self.SC.CustomerTypeID() != null && self.SC.CustomerTypeID() > 0)
+                {
+                    url += "&CustomerTypeID=" + self.SC.CustomerTypeID() ;
+                }
+
+                window.location.href = url;
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ID:selectedrow.ID,RowCount:0} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+
+                        $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("CitySearch")",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: ko.toJSON({ CountryID: result.Data.CountryID }),
+                            success: function (result2) {
+                                
+                                    self.Cities(result2);
+                                    $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("FillRegions")",
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            data: ko.toJSON({ CityID: result2.ID }),
+                                            success: function (result3) {
+
+                                                self.Regions(result3);
+                                                $.ajax({
+                                                        type: "POST",
+                                                        url: "@Url.Action("FillGovernorates")",
+                                                        contentType: "application/json; charset=utf-8",
+                                                        dataType: "json",
+                                                        data: ko.toJSON({ RegionID: result3.ID }),
+                                                        success: function (result4) {
+
+                                                            self.Governorates(result4);
+
+                                                            ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+
+                                                            for (var i = 0; i < self.AllProducts().length; i++) {
+                                                                self.AllProducts()[i].Selected(self.Model.Products().find(function (cat) {
+                                                                    return self.AllProducts()[i].ID() == cat.ID();
+                                                                }) != undefined);
+                                                            }
+                                                        },
+                                                        failure: function () {
+                                                            //   alert('Fail');
+                                                        }
+                                                });
+                                            },
+                                            failure: function () {
+                                                //   alert('Fail');
+                                            }
+                                    });
+
+                                    
+                                    //waitingDialog.hide();
+                                },
+                                failure: function () {
+                                    //   alert('Fail');
+                                }
+                        });
+
+
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+
+
+        });
+        HoverActiveLink("27");
+        HoverSubActiveLink("Sub49")
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.AccessDenied;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.AccessDenied
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li class="active">@AppResource.AccessDenied</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.AccessDenied</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <span class="text-center nonecase-font mb-20 block error-comment">Access Denied</span>
+                    <p class="text-center">You do not have sufficient permissions to access this page.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

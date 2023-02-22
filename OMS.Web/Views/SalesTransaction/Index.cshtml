@@ -1,0 +1,348 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.SalesTransaction;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.SalesTransaction
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.Sales</a></li>
+            <li class="active">@AppResource.SalesTransaction</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.DocNo</label>
+                        @KOWriter.WriteTextbox("SC.DocNo")
+                        @*<input class="form-control" data-bind="value:SC.DocNo">*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.Customer</label>
+                        @KOWriter.WriteTextbox("SC.CustomerName")
+                        @*<input class="form-control" data-bind="value:SC.CustomerName">*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.SalesAgent</label>
+                        @KOWriter.WriteTextbox("SC.SalesAgentName")
+                        @*<input class="form-control" data-bind="value:SC.SalesAgentName">*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.IsDelivered</label>
+                        <select data-bind="value:SC.IsDelivered" class="form-control">
+                            <option>@AppResource.All</option>
+                            <option value="1">True</option>
+                            <option value="2">False</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.Type</label>
+                        <select data-bind="value:SC.Type" class="form-control">
+                            <option>@AppResource.All</option>
+                            <option value="1">Sales Request</option>
+                            <option value="2">Sales Invoice</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.FromDate</label>
+                        @KOWriter.WriteDatePicker("SC.FromDate")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.ToDate</label>
+                        @KOWriter.WriteDatePicker("SC.ToDate")
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.RequestData</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @*@KOWriter.WriteToolbar()*@
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DocNo</label>
+                        @KOWriter.WriteTextbox("Model.DocNo", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.TransactionDate</label>
+                        @KOWriter.WriteTextbox("Model.StrDate", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Customer</label>
+                        @KOWriter.WriteTextbox("Model.CustomerName", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.SalesAgent</label>
+                        @KOWriter.WriteTextbox("Model.SalesAgentName", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.TransactionType</label>
+                        @KOWriter.WriteTextbox("Model.TypeName", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Discount</label>
+                        @KOWriter.WriteTextbox("Model.Discount", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label"></label><br />
+                        @KOWriter.WriteCheckbox("Model.IsDelivered", ",enable:false") <label class="control-label" for="checkbox1">@AppResource.IsDelivered</label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Notes</label>
+                        @KOWriter.WriteTextArea("Model.Notes", ",enable:false")
+                    </div>
+                </div>
+                <br style="clear:both" /><br />
+                <div class="col-lg-12">
+                    <table id="tblDet" class="table table-bordered m-b-none text-sm">
+                        <thead>
+                            <tr>
+                                <th>@AppResource.Product</th>
+                                <th width="190">@AppResource.Qty</th>
+                                <th width="220">@AppResource.Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" data-bind="foreach:TransactionsComputed">
+                        <tr>
+                            <td>@KOWriter.WriteTextbox("ProductName", ",enable:false")</td>
+                            <td>@KOWriter.WriteTextbox("Qty", ",enable:false")</td>
+                            <td>@KOWriter.WriteTextbox("SalesPrice", ",enable:false")</td>
+                        </tr>
+                        </tbody>
+                        <tbody id="tableBody" data-bind="foreach:MedicalLensTransactionsComputed">
+                            <tr>
+                                <td>@KOWriter.WriteTextbox("LensName", ",enable:false")</td>
+                                <td>@KOWriter.WriteTextbox("Qty", ",enable:false")</td>
+                                <td>@KOWriter.WriteTextbox("SalesPrice", ",enable:false")</td>
+                            </tr>
+                        </tbody>
+                        <tfoot data-bind="visible: totalSurcharge()>0">
+                            <tr>
+                                <td colspan="2" style="text-align:center">@AppResource.TotalQty</td>
+                                <td data-bind="text: totalQty()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:center">@AppResource.InvoiceTotal</td>
+                                <td data-bind="text: totalSurcharge()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" style="text-align:center">@AppResource.TotalDiscountAmont</td>
+                                <td data-bind="text: discountAmount()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:center">@AppResource.GroundTotal</td>
+                                <td data-bind="text: netAmount()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @*<div class="box box-primary">
+            <div class="box-header with-border">
+            </div>
+            <div class="box-body">
+                
+            </div>
+        </div>*@
+    </section>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new SalesTransactionModel()));
+            self.AllCategories= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.AllCategories)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SalesTransactionSearchViewModel(){PageIndex=1, RowCount = 1  })));
+
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.TransactionDate", "StrDate", "date");
+            self.GridCtrl.AddColumn("@AppResource.DocNo", "DocNo");
+            self.GridCtrl.AddColumn("@AppResource.Customer", "CustomerName");
+            self.GridCtrl.AddColumn("@AppResource.SalesAgent", "SalesAgentName");
+            self.GridCtrl.AddColumn("@AppResource.TransactionType", "TypeName");
+
+            self.TransactionsComputed = ko.computed(function () {
+                return self.Model.Details();
+            });
+            self.MedicalLensTransactionsComputed = ko.computed(function () {
+                return self.Model.MedicalLensDetail();
+            });
+
+            self.totalSurcharge = ko.computed(function() {
+                var total = 0;
+                for (var i = 0; i < self.Model.Details().length; i++)
+                    total += (parseFloat(self.Model.Details()[i].SalesPrice()) *
+                        parseFloat(self.Model.Details()[i].Qty()));
+                for (var i = 0; i < self.Model.MedicalLensDetail().length; i++)
+                    total += (parseFloat(self.Model.MedicalLensDetail()[i].SalesPrice()) *
+                        parseFloat(self.Model.MedicalLensDetail()[i].Qty()));
+                return total;
+            });
+            self.totalQty = ko.computed(function() {
+                var total = 0;
+                for (var i = 0; i < self.Model.Details().length; i++)
+                    total += parseInt(self.Model.Details()[i].Qty());
+                for (var i = 0; i < self.Model.MedicalLensDetail().length; i++)
+                    total += parseInt(self.Model.MedicalLensDetail()[i].Qty());
+                return total;
+            });
+            self.totalDiscount = ko.computed(function() {
+                return parseFloat(self.Model.Discount());
+            });
+            self.discountAmount = ko.computed(function() {
+                return (self.totalDiscount());
+            });
+            self.netAmount = ko.computed(function() {
+                return (self.totalSurcharge() - self.discountAmount()).toFixed(4);
+            });
+
+            self.New = function()
+            {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+            }
+
+            self.Save  = function()
+            {
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        //waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:selectedrow.Id} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+
+    </script>
+}

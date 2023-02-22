@@ -1,0 +1,779 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+
+@{
+    ViewBag.Title = AppResource.SalesInvoice;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.SalesInvoice
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.Sales</a></li>
+            <li class="active">@AppResource.SalesInvoice</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.RequestData</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        <a href='#' class='btn btn-primary btn-sm toolbarBtn' data-bind='click:Save'>@AppResource.Save</a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DocNo<span style="color:red;"></span></label>
+                        @KOWriter.WriteTextbox("Model.DocNo", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.TransactionDate<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDatePicker("Model.Date")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DeliveryDate</label>
+                        @KOWriter.WriteDatePicker("Model.DeliveryDate")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>@AppResource.Customer</legend>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Customer<span style="color:red;">*</span></label>
+                                @KOWriter.WriteDropDown2("Model.CustomerId", "Customers", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                            </div>
+                        </div>
+                        <br style="clear:both" />
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.CustomerNo<span style="color:red;">*</span></label>
+                                @KOWriter.WriteTextbox("Model.CustomerNo", ",enable:false")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.CustomerEmail<span style="color:red;">*</span></label>
+                                @KOWriter.WriteTextbox("Model.CustomerEmail", ",enable:false")
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.CustomerMobile<span style="color:red;">*</span></label>
+                                @KOWriter.WriteTextbox("Model.CustomerMobile", ",enable:false")
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <br />
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.SalesAgent<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.SalesAgentName")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Warehouse<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.WarehouseId", "Warehouses", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Discount<span style="color:red;">*</span></label>
+                        @KOWriter.WriteIntegerTextbox("Model.Discount")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.VatAmount</label>
+                        @KOWriter.WriteIntegerTextbox("Model.VATAmount")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.PaidAmount<span style="color:red;">*</span></label>
+                        @KOWriter.WriteIntegerTextbox("Model.PaidAmount")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-4">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-bind='value:Model.IsDelivered' /> @AppResource.IsDelivered
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-bind='value:Model.IsSalesRequest' /> @AppResource.IsSalesRequest
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Notes</label>
+                        @KOWriter.WriteTextArea("Model.Notes")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="row" data-bind="with:EmptyDetailModel">
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Product</label>
+                                @KOWriter.WriteDropDown2("ProductId", "$root.Products")
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Qty</label>
+                                @KOWriter.WriteIntegerTextbox("Qty")
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Price</label>
+                                @KOWriter.WriteIntegerTextbox("SalesPrice")
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.Discount</label>
+                                @KOWriter.WriteIntegerTextbox("Discount")
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.VatAmount</label>
+                                @KOWriter.WriteIntegerTextbox("VATValue")
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button class="btn btn-sm btn-primary pull-right" data-bind="click:$root.AddNewDetail" style="margin-bottom:5px;" aria-hidden="true">@AppResource.AddNew</button>
+                        </div>
+                    </div>
+
+                    <br />
+                    <table id="tblDet" class="table table-bordered m-b-none text-sm">
+                        <thead>
+                            <tr>
+                                <th>@AppResource.Product</th>
+                                <th width="120">@AppResource.Qty</th>
+                                <th width="120">@AppResource.Price</th>
+                                <th width="120">@AppResource.Discount</th>
+                                <th width="150">@AppResource.VatAmount</th>
+                                <th width="30"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:TransactionsComputed">
+                            <tr>
+                                <td>@KOWriter.WriteDropDown("ProductId", "$root.Products", additionalKOattributes: ",enable:false")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("Qty")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("SalesPrice")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("Discount")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("VATValue")</td>
+                                <td><button class="btn btn-sm btn-danger" data-bind="click: $root.RemoveFromDetails" style="margin-bottom:5px;" aria-hidden="true"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="row">
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">@AppResource.MedicalLens</label>
+                                @KOWriter.WriteDropDown3("Model.MedicalLensMasterId", "$root.MedicalLenses", "details-type")
+                            </div>                
+                        </div>
+
+                        <div class="box-footer">
+                            <div class='pull-right'>
+                                <div class='doc-buttons'>
+                                    <button class="btn btn-xs btn-primary toolbarBtn" id="ShowHanzoTable" style="margin-bottom:5px;" aria-hidden="true">ShowHanzoTable</button>
+                                    <button class="btn btn-success btn-xs toolbarBtn" data-bind='click:AddLense' id="btnAddLenses" style="margin-bottom:5px;" aria-hidden="true">@AppResource.AddLesnse</button>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <div id="HanzoTable" class="hot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    <br />
+                    @*<table id="tblDet" class="table table-bordered m-b-none text-sm">
+                        <thead>
+                            <tr>
+                                <th>@AppResource.MedicalLens</th>
+                                <th width="120">@AppResource.Qty</th>
+                                <th width="120">@AppResource.Price</th>
+                                <th width="120">@AppResource.Discount</th>
+                                <th width="150">@AppResource.VatAmount</th>
+                                <th width="30"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:MedicalLensTransactionsComputed">
+                            <tr>
+                                <td>@KOWriter.WriteDropDown("MedicalLensMasterId", "$root.MedicalLenses", additionalKOattributes: ",enable:false")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("Qty")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("SalesPrice")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("Discount")</td>
+                                <td class="numericcell">@KOWriter.WriteLabel("VATValue")</td>
+                                <td>@KOWriter.WriteDropDown("SPHId", "$root.SPHs", additionalKOattributes: ",enable:false")</td>
+                                <td>@KOWriter.WriteDropDown("CYLValue", "$root.CYLs", additionalKOattributes: ",enable:false")</td>
+                                <td><button class="btn btn-sm btn-danger" data-bind="click: $root.RemoveFromMedicalLensDetail" style="margin-bottom:5px;" aria-hidden="true"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot data-bind="visible: totalSurcharge()>0">
+                            <tr>
+                                <td colspan="4" style="text-align:center">@AppResource.TotalQty</td>
+                                <td colspan="2" data-bind="text: totalQty()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center">@AppResource.InvoiceTotal</td>
+                                <td colspan="2" data-bind="text: totalSurcharge()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="4" style="text-align:center">@AppResource.TotalDiscountAmont</td>
+                                <td colspan="2" data-bind="text: discountAmount()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center">@AppResource.VatAmount</td>
+                                <td colspan="2" data-bind="text: vatAmount()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:center">@AppResource.GroundTotal</td>
+                                <td colspan="2" data-bind="text: netAmount()" style="text-align:center;background-color:#e7e7e7"></td>
+                            </tr>
+                        </tfoot>
+                    </table>*@
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+@section scripts
+{
+    <script>
+    function Controller() {
+        var self = this;
+        $('#HanzoTable').hide();
+        $('#ShowHanzoTable').hide();
+        $('#btnAddLenses').hide();
+
+        self.Errors = ko.viewmodel.fromModel([]);
+        self.ModelJS = @Html.Raw(Json.Encode(new SalesInvoiceModel()));
+        self.Model = ko.viewmodel.fromModel(self.ModelJS);
+        self.DetailsModel = ko.observableArray();
+
+        self.Customers = @Html.Raw(Json.Encode(ViewBag.Customers));
+        self.Warehouses = @Html.Raw(Json.Encode(ViewBag.Warehouses));
+        self.SPHs = @Html.Raw(Json.Encode(ViewBag.SPHs));
+        self.CYLs = @Html.Raw(Json.Encode(ViewBag.CYLs));
+        self.Products = ko.observableArray([]);
+        self.MedicalLenses = ko.observableArray([]);
+
+        self.EmptyDetailJSModel = @Html.Raw(Json.Encode(new SalesTransactionDetailsModel()));
+        self.EmptyDetailModel = ko.viewmodel.fromModel(self.EmptyDetailJSModel);
+        //-------------------------------------------------------
+        self.EmptyMedicalLensSalesDetailJSModel = @Html.Raw(Json.Encode(new MedicalLensSalesDetailModel()));
+        self.EmptyMedicalLensSalesDetail = ko.viewmodel.fromModel(self.EmptyMedicalLensSalesDetailJSModel);
+
+        self.TransactionsComputed = ko.computed(function() {
+            //return self.DetailsModel();
+            return self.Model.Details();
+        });
+        self.MedicalLensTransactionsComputed = ko.computed(function() {
+            //return self.DetailsModel();
+            return self.Model.MedicalLensDetail();
+        });
+        self.NewDetailsComputed = ko.computed(function() {
+            return ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SalesTransactionDetailsModel())));
+        });
+        self.NewMedicalLensDetailsComputed = ko.computed(function() {
+            return ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new MedicalLensSalesDetailModel())));
+        });
+        self.totalSurcharge = ko.computed(function() {
+            var total = 0;
+            for (var i = 0; i < self.Model.Details().length; i++)
+                total += (parseFloat(self.Model.Details()[i].SalesPrice) *
+                    parseFloat(self.Model.Details()[i].Qty));
+
+            for (var i = 0; i < self.Model.MedicalLensDetail().length; i++)
+                total += (parseFloat(self.Model.MedicalLensDetail()[i].SalesPrice) *
+                    parseFloat(self.Model.MedicalLensDetail()[i].Qty));
+            return total;
+        });
+        self.totalQty = ko.computed(function() {
+            var total = 0;
+            for (var i = 0; i < self.Model.Details().length; i++)
+                total += parseInt(self.Model.Details()[i].Qty);
+            return total;
+        });
+        self.totalDiscount = ko.computed(function() {
+            var total = 0;
+            for (var i = 0; i < self.Model.Details().length; i++)
+                total += parseInt(self.Model.Details()[i].Discount);
+            return total;
+        });
+        self.vatAmount = ko.computed(function() {
+
+            var total = 0;
+            for (var i = 0; i < self.Model.Details().length; i++)
+                total += parseInt(self.Model.Details()[i].VATValue);
+
+            return (total + parseFloat(self.Model.VATAmount()));
+        });
+        self.discountAmount = ko.computed(function() {
+            return (self.totalDiscount() + parseFloat(self.Model.Discount()));
+        });
+        self.netAmount = ko.computed(function() {
+            return (self.totalSurcharge() + self.vatAmount() - self.discountAmount()).toFixed(2);
+        });
+
+        self.AddNewDetail = function(item) {
+            self.Model.Details.push({
+                ProductId: item.ProductId(),
+                Qty: item.Qty(),
+                SalesPrice: item.SalesPrice(),
+                Discount: item.Discount(),
+                VATValue: item.VATValue()
+            });
+            ko.viewmodel.updateFromModel(self.EmptyDetailModel, self.EmptyDetailJSModel);
+        }
+        self.AddNewMedicalLensDetail = function(item) {
+            self.Model.MedicalLensDetail.push({
+                MedicalLensMasterId: item.Id(),
+                Qty: item.Qty(),
+                SalesPrice: item.SalesPrice(),
+                Discount: item.Discount(),
+                VATValue: item.VATValue(),
+                SPHId: item.SPHId(),
+                CYLValue: item.CYLValue()
+            });
+
+            ko.viewmodel.updateFromModel(self.EmptyMedicalLensSalesDetail, self.EmptyMedicalLensSalesDetailJSModel);
+        }
+
+
+        self.RemoveFromDetails = function(det) {
+            //if (det.Id()==0)
+            {
+                self.Model.Details.remove(det);
+            }
+        }
+        self.RemoveFromMedicalLensDetail = function(det) {
+            //if (det.Id()==0)
+            {
+                self.Model.MedicalLensDetail.remove(det);
+            }
+        }
+        self.Model.MedicalLensMasterId.subscribe(function(newvalue) {
+            alert(newvalue);
+        });
+        self.Model.WarehouseId.subscribe(function(newvalue) {
+            if (newvalue == undefined || newvalue == null) {
+                self.Products([]);
+                self.MedicalLenses([]);
+
+                return;
+            }
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillProducts")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON({ WarehouseId: newvalue }),
+                success: function(result) {
+                    self.Products(result.products);
+                    self.MedicalLenses(result.MedicalLenses);
+                    $('#ShowHanzoTable').show();
+
+                },
+                failure: function(error) {
+                    console.log(error);
+                    //alert('Fail');
+                }
+            });
+        });
+        self.Model.CustomerId.subscribe(function(newvalue) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCustomerData")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON({ customerId: newvalue }),
+                success: function(result) {
+                    self.Model.CustomerMobile(result.Mobile);
+                    self.Model.CustomerNo(result.Code);
+                    self.Model.CustomerEmail(result.Email);
+                },
+                failure: function() {
+                    //   alert('Fail');
+                }
+            });
+        });
+
+
+        self.AddLense = function() {
+        }
+        self.Save = function() {
+
+            //add new hanzon
+            @*var hotInstance = hot.getInstance();
+                var _data = hotInstance.getSourceData();
+
+                hotInstance.validateCells(function (valid) {
+                    if (valid) {
+
+                        ShowSuccessMessage();
+                    }
+                    else {
+                        alert("رجاء مراجعة البيانات بشكل صحيح ")
+                        e.preventDefault();
+                        return;
+                    }
+                });
+
+            if (_data != undefined) {
+                _data.forEach(function(row, index) {
+                   row.MedicalLensMasterId = "@Model.Id";
+                  row.MedicalLensDetailsTypeId = typeId;
+                });*@
+            //end anzon table
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Save")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function(result) {
+
+                    if (result.Exceptions.length == 0) {
+                        ShowSuccessMessage();
+                        ko.viewmodel.updateFromModel(self.Model, self.ModelJS);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetDocumentNumber")",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: ko.toJSON(self.Model),
+                            success: function(result) {
+                                self.Model.DocNo(result);
+                            },
+                            failure: function() {
+                            }
+                        });
+
+                        self.Errors([]);
+                    } else {
+                        self.Errors(result.Exceptions);
+                    }
+                },
+                failure: function() {
+                    //   alert('Fail');
+                }
+            });
+        }
+
+        function intialData() {
+            var customerId = parseInt(new URLSearchParams(window.location.search).get("customerId"));
+            if (customerId) {
+                self.Model.CustomerId(customerId);
+            }
+
+            //fill doc no
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDocumentNumber")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function(result) {
+                    self.Model.DocNo(result);
+                },
+                failure: function() {
+                }
+            });
+        }
+
+        intialData();
+
+    }
+
+    $(document).ready(function() {
+        ko.applyBindings(new Controller(), document.getElementById("content"));
+
+        //h table
+        var dynamicColumns = [
+            {
+                data: 'SphId',
+                type: 'numeric',
+                readOnly: true,
+                width: 100,
+
+            }, {
+                data: 'SphName',
+                type: 'text',
+                readOnly: true
+
+            },
+            {
+                data: 'Id',
+                type: 'numeric',
+                readOnly: true
+
+            },
+            {
+                data: 'MedicalLensMasterId',
+                type: 'numeric',
+                readOnly: true
+
+            },
+            {
+                data: 'CYL_0',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_0_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_0_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_0_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_1',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_1_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_1_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_1_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_2',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_2_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_2_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_2_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_3',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_3_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_3_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_3_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_4',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_4_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_4_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_4_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_5_25',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_5_5',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_5_75',
+                type: 'numeric'
+
+            },
+            {
+                data: 'CYL_6',
+                type: 'numeric'
+
+            }
+        ];
+        //Header
+        var dynamicheader = ["SphId", "SPH", "Id", "MedicalLensMasterId"];
+        for (var i = 0; i <= 6; i = i + 0.25) {
+            var title = "-" + i.toString();
+            dynamicheader.push(title);
+        }
+        var sourceDataObject = [];
+
+        var container = document.querySelector('#HanzoTable');
+        var setting = {
+            //  data: sourceDataObject,
+            colHeaders: dynamicheader,
+            // rowHeights: 30,
+            minSpareRows: 1,
+            manualRowResize: true,
+            columns: dynamicColumns,
+            hiddenColumns: {
+                columns: [0, 2, 3],
+                indicators: true
+            },
+            // colWidths: 100,
+            width: '100%',
+            height: "520",
+            fixedColumnsLeft: 1,
+
+            licenseKey: 'non-commercial-and-evaluation'
+        };
+
+
+        var hot = new Handsontable(container, setting);
+
+        $("#details-type").on("change",
+            function() {
+
+                GetData();
+
+            });
+
+        $("#ShowHanzoTable").on("click",
+            function() {
+
+                $('#HanzoTable').show();
+                $('#btnAddLenses').show();
+
+            });
+
+        //$("#btnAddLenses").on("click", function () {
+
+
+        //});
+
+        function GetData() {
+
+            typeId = $("#details-type").val();
+
+            $.ajax({
+                url: "/Sph.json",
+                method: "GET",
+                async: true,
+                success: function(mydata2) {
+                    hot.loadData(mydata2);
+                }
+            });
+
+
+        }
+
+        GetData();
+
+
+    });
+    //end h table
+    // });
+
+    </script>
+
+
+}
+

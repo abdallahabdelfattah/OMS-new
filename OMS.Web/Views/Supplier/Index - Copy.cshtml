@@ -1,0 +1,364 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.ManageSupplier;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageSupplier
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ManageSupplier</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @KOWriter.WriteToolbar()
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Code</label>
+                        @KOWriter.WriteLabel("Model.Code")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Email<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.Email")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.CommercialNumber</label>
+                        @KOWriter.WriteTextbox("Model.CRNo")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Phone</label>
+                        @KOWriter.WriteDecimalTextbox("Model.Phone")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Mobile<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDecimalTextbox("Model.Mobile")
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.FaxNo</label>
+                        @KOWriter.WriteTextbox("Model.FaxNo", additionalKOattributes: ",class:NumericOnly")
+                    </div>
+                </div>
+
+                @*<div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">Country<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.CountryID", "Countries", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                    </div>
+                </div>*@
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.City<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.CityID", "Cities", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Region<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.RegionID", "Regions", additionalKOattributes: ",optionsCaption:\"--Select--\"")
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.BankName</label>
+                        @KOWriter.WriteTextbox("Model.BankName")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.BankAccountNo</label>
+                        @KOWriter.WriteTextbox("Model.BankAccount")
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Address</label>
+                        @KOWriter.WriteTextArea("Model.Address")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>@AppResource.ContactPersons</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="tab-pane">
+            <div class="panel-body">
+                <button class="btn btn-sm btn-primary pull-right" data-bind="click:AddNewContact" style="margin-bottom:5px;" aria-hidden="true">Add</button>
+                <br />
+                <table class="table table-bordered table-responsive m-b-none text-sm">
+                    <thead>
+                        <tr>
+                            <th>@AppResource.Title</th>
+                            <th>@AppResource.ArabicName<span style="color:red;">*</span></th>
+                            <th>@AppResource.EnglishName<span style="color:red;">*</span></th>
+                            <th>@AppResource.Email<span style="color:red;">*</span></th>
+                            <th>@AppResource.Mobile 1<span style="color:red;">*</span></th>
+                            <th>@AppResource.Mobile 2</th>
+                            <th width="30"></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach:ContactsComputed">
+                        <tr>
+                            <td>@KOWriter.WriteTextbox("Title")</td>
+                            <td>@KOWriter.WriteTextbox("NameAr")</td>
+                            <td>@KOWriter.WriteTextbox("NameEn")</td>
+                            <td>@KOWriter.WriteTextbox("Email")</td>
+                            <td>@KOWriter.WriteTextbox("Mobile1")</td>
+                            <td>@KOWriter.WriteTextbox("Mobile2")</td>
+                            <td> <button class="btn btn-sm btn-danger" data-bind="click: $root.RemoveFromContacts" style="margin-bottom:5px;" aria-hidden="true"><i class="fa fa-trash-o"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new SupplierModel()));
+            self.Countries= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Countries)));
+            self.SearchCities = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.SearchCities)));
+            self.Cities = ko.observableArray([]);
+            self.Regions = ko.observableArray([]);
+            //self.SearchRegions = ko.observableArray([]);
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SupplierSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.Code", "Code");
+            self.GridCtrl.AddColumn("@AppResource.ArabicName", "NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName", "NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Email", "Email");
+            self.GridCtrl.AddColumn("@AppResource.Phone", "Phone");
+            self.GridCtrl.AddColumn("@AppResource.Mobile", "Mobile");
+            self.GridCtrl.AddColumn("@AppResource.Country", "CountryName");
+            self.GridCtrl.AddColumn("@AppResource.City", "CityName");
+
+
+            self.New = function()
+            {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+            }
+
+            self.ContactsComputed = ko.computed(function () {
+                return self.Model.ContactPersons();
+            });
+            self.AddNewContact=function()
+            {
+                var EmptyDetailModel=ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SuppilerContactPersonModel())));
+                self.Model.ContactPersons.push(EmptyDetailModel);
+            }
+            self.RemoveFromContacts = function (contact) {
+                if (contact.ID() == 0) {
+                    self.Model.ContactPersons.remove(contact);
+                }
+            }
+
+            self.Model.CountryID.subscribe(function (newvalue)
+            {
+                if (newvalue == undefined || newvalue == null) {
+                    self.Cities([]);
+                    return;
+                }
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CitySearch")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ CountryID: newvalue }),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Cities(result);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            });
+
+
+            self.Save  = function()
+            {
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        //waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(), false);
+                            //ko.viewmodel.updatefromModel(self.AllProducts, result.AllProducts);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:selectedrow.Id} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+
+                        $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("CitySearch")",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: ko.toJSON({ CountryID: result.Data.CountryID }),
+                                success: function (result2) {
+
+                                    self.Cities(result2);
+
+                                    ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+
+                                    //waitingDialog.hide();
+                                },
+                                failure: function () {
+                                    //   alert('Fail');
+                                }
+                        });
+
+
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+        });
+        HoverActiveLink("27");
+        HoverSubActiveLink("Sub51")
+    </script>
+}

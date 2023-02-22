@@ -1,0 +1,256 @@
+﻿@using OMS.Model.ViewModel
+@using OMS.Resources
+@using OMS.Web.Utilities
+
+@{
+    ViewBag.Title = AppResource.EditProductGroup;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.EditProductGroup
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.EditProductGroup</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Supplier</label>
+                        @KOWriter.WriteDropDown("SC.SupplierId", "Suppliers", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Brand</label>
+                        @KOWriter.WriteDropDown("SC.BrandId", "Brands", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Model</label>
+                        @KOWriter.WriteDropDown("SC.ModelId", "Models", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Color</label>
+                        @KOWriter.WriteDropDown("SC.ColorId", "Colors", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Category</label>
+                        @KOWriter.WriteDropDown("SC.CategoryId", "Categories", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Product</label>
+                        <input class="form-control" placeholder="@AppResource.EnterCode" data-bind="value:SC.ProductIdFrom">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Product</label>
+                        <input class="form-control" placeholder="@AppResource.EnterCode" data-bind="value:SC.ProductIdTo">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.OfficialPrice</label>
+                        <input class="form-control" placeholder="@AppResource.EnterCode" data-bind="value:SC.OfficialPriceFrom">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.OfficialPrice</label>
+                        <input class="form-control" placeholder="@AppResource.EnterCode" data-bind="value:SC.OfficialPriceTo">
+                    </div>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @KOWriter.WriteToolbar()
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+
+
+
+
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Color</label>
+                        @KOWriter.WriteDropDown("Column", "EditTypes", ItemText: "Name", ItemValue: "Id", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Color</label>
+                        @KOWriter.WriteDropDown("Operation", "Operations", ItemText: "Name", ItemValue: "Id", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Grade</label>
+                        @KOWriter.WriteTextbox("NewValue")
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+    </section>
+</div>
+
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new EditProductGroupModel()));
+            self.Categories= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Categories)));
+            self.Suppliers= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Suppliers)));
+            self.Colors= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Colors)));
+            self.Models= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Models)));
+            self.Brands= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Brands)));
+            self.EditTypes= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.EditTypes)));
+            self.Operations= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Operations)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new EditProductGroupSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")",self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.Code", "Code");
+            self.GridCtrl.AddColumn("@AppResource.Name", "Name");
+            self.GridCtrl.AddColumn("@AppResource.Category", "CategoryName");
+            self.GridCtrl.AddColumn("@AppResource.OfficialPrice", "OfficialPrice");
+            self.GridCtrl.AddColumn("@AppResource.Qty", "Qty");
+
+            self.NewValue = ko.observable(0);
+            self.Column = ko.observable(1);
+            self.Operation = ko.observable(1);
+
+
+            self.Save  = function()
+            {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveAsync")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ vm: self.SC, newValue: self.NewValue, column: self.Column, operation: self.Operation }),
+                    success: function (result) {
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+              self.Delete  = function()
+            {
+
+                
+            }
+            self.New = function () {
+
+
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDocumentNumber")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    self.Model.Code(result);
+                },
+                failure: function () {
+                }
+            });
+
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+    </script>
+}

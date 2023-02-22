@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="89e9f729b7e14ffc9d5aad43f7fd0cc0" Name="Diagram1" ZoomLevel="35">
+        <EntityTypeShape EntityType="Model.SystemSetting" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Attachment" Width="1.5" PointX="9.75" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.Color" Width="1.5" PointX="5.25" PointY="23" />
+        <EntityTypeShape EntityType="Model.Currency" Width="1.5" PointX="16.5" PointY="26.5" />
+        <EntityTypeShape EntityType="Model.Customer" Width="1.5" PointX="11.25" PointY="52.625" />
+        <EntityTypeShape EntityType="Model.CustomerDisease" Width="1.5" PointX="13.5" PointY="59.75" />
+        <EntityTypeShape EntityType="Model.CustomerTitle" Width="1.5" PointX="9" PointY="54.375" />
+        <EntityTypeShape EntityType="Model.Disease" Width="1.5" PointX="11.25" PointY="60.375" />
+        <EntityTypeShape EntityType="Model.Doctor" Width="1.5" PointX="5.25" PointY="51.5" />
+        <EntityTypeShape EntityType="Model.Email" Width="1.5" PointX="12" PointY="6" />
+        <EntityTypeShape EntityType="Model.Examination" Width="1.5" PointX="13.5" PointY="53.625" />
+        <EntityTypeShape EntityType="Model.Group" Width="1.5" PointX="6" PointY="39.875" />
+        <EntityTypeShape EntityType="Model.GroupPageAction" Width="1.5" PointX="8.25" PointY="2.5" />
+        <EntityTypeShape EntityType="Model.Job" Width="1.5" PointX="6.75" PointY="47.625" />
+        <EntityTypeShape EntityType="Model.Material" Width="1.5" PointX="5.25" PointY="32.625" />
+        <EntityTypeShape EntityType="Model.MedicalLensDetail" Width="1.5" PointX="20" PointY="3.5" />
+        <EntityTypeShape EntityType="Model.MedicalLensDtailsType" Width="1.5" PointX="17.75" PointY="3.375" />
+        <EntityTypeShape EntityType="Model.MedicalLensMaster" Width="1.5" PointX="7.5" PointY="16.125" />
+        <EntityTypeShape EntityType="Model.MedicalLensPurchaseDetail" Width="1.5" PointX="12.75" PointY="15.625" />
+        <EntityTypeShape EntityType="Model.MedicalLensSalesDetail" Width="1.5" PointX="20" PointY="27.625" />
+        <EntityTypeShape EntityType="Model.Model" Width="1.5" PointX="3" PointY="23" />
+        <EntityTypeShape EntityType="Model.Nationality" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Notification" Width="1.5" PointX="8.25" PointY="38.375" />
+        <EntityTypeShape EntityType="Model.NotificationResponse" Width="1.5" PointX="16.25" PointY="46.625" />
+        <EntityTypeShape EntityType="Model.NotificationSeen" Width="1.5" PointX="14.25" PointY="38.75" />
+        <EntityTypeShape EntityType="Model.PageAction" Width="1.5" PointX="6" PointY="2.375" />
+        <EntityTypeShape EntityType="Model.ProductCategory" Width="1.5" PointX="8.25" PointY="25.375" />
+        <EntityTypeShape EntityType="Model.PurchaseTransactionDetail" Width="1.5" PointX="18.75" PointY="19" />
+        <EntityTypeShape EntityType="Model.PurchaseTransactionMaster" Width="1.5" PointX="10.5" PointY="11.375" />
+        <EntityTypeShape EntityType="Model.PurchaseTransactionPayment" Width="1.5" PointX="15.75" PointY="51.125" />
+        <EntityTypeShape EntityType="Model.SalesTransaction" Width="1.5" PointX="13.5" PointY="45.875" />
+        <EntityTypeShape EntityType="Model.SalesTransactionDetail" Width="1.5" PointX="15.75" PointY="14.625" />
+        <EntityTypeShape EntityType="Model.SalesTransactionPayment" Width="1.5" PointX="15.75" PointY="55.625" />
+        <EntityTypeShape EntityType="Model.SMSs" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Supplier" Width="1.5" PointX="5.25" PointY="7.625" />
+        <EntityTypeShape EntityType="Model.SupplierContactPerson" Width="1.5" PointX="7.5" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.SystemConfiguration" Width="1.5" PointX="9" PointY="32.875" />
+        <EntityTypeShape EntityType="Model.SystemErrorLog" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.SystemPage" Width="1.5" PointX="3.75" PointY="2" />
+        <EntityTypeShape EntityType="Model.Upload" Width="1.5" PointX="6.75" PointY="45.125" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="9" PointY="43.375" />
+        <EntityTypeShape EntityType="Model.UserGroup" Width="1.5" PointX="14.25" PointY="42.875" />
+        <EntityTypeShape EntityType="Model.UserPageAction" Width="1.5" PointX="11.25" PointY="26" />
+        <EntityTypeShape EntityType="Model.UserWarehouse" Width="1.5" PointX="16.5" PointY="43.625" />
+        <EntityTypeShape EntityType="Model.Warehouse" Width="1.5" PointX="11.25" PointY="45.375" />
+        <EntityTypeShape EntityType="Model.WarehouseTransaction" Width="1.5" PointX="13.5" PointY="29.875" />
+        <EntityTypeShape EntityType="Model.WarehouseTransactionDetail" Width="1.5" PointX="15.75" PointY="22.875" />
+        <EntityTypeShape EntityType="Model.WarehouseVerification" Width="1.5" PointX="13.5" PointY="25.375" />
+        <EntityTypeShape EntityType="Model.WarehouseVerificationDetail" Width="1.5" PointX="15.75" PointY="18.625" />
+        <EntityTypeShape EntityType="Model.Brand" Width="1.5" PointX="0.75" PointY="14.625" />
+        <EntityTypeShape EntityType="Model.CoatingDiagram" Width="1.5" PointX="5.25" PointY="17.25" />
+        <EntityTypeShape EntityType="Model.LenseIndex" Width="1.5" PointX="5.25" PointY="14.125" />
+        <EntityTypeShape EntityType="Model.MedicalLensType" Width="1.5" PointX="5.25" PointY="35.875" />
+        <EntityTypeShape EntityType="Model.MultifocalDesign" Width="1.5" PointX="5.25" PointY="26.375" />
+        <EntityTypeShape EntityType="Model.SPH" Width="1.5" PointX="17.75" PointY="6" />
+        <EntityTypeShape EntityType="Model.VersionType" Width="1.5" PointX="5.25" PointY="29.5" />
+        <EntityTypeShape EntityType="Model.PurchaseReportView" Width="1.5" PointX="14.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Model.WarehouseProductsView" Width="1.5" PointX="16.75" PointY="9.75" />
+        <AssociationConnector Association="Model.FK_Emails_Attachment" />
+        <AssociationConnector Association="Model.FK_Color_Model" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_Color" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionDetail_Currency" />
+        <AssociationConnector Association="Model.FK_Customer_CutomerTitle" />
+        <AssociationConnector Association="Model.FK_CustomerDisease_Customer" />
+        <AssociationConnector Association="Model.FK_Examination_Customer" />
+        <AssociationConnector Association="Model.FK_SalesTransaction_Customer" />
+        <AssociationConnector Association="Model.FK_WarehouseTransaction_Customer" />
+        <AssociationConnector Association="Model.FK_CustomerDisease_Disease" />
+        <AssociationConnector Association="Model.FK_Examination_Doctor" />
+        <AssociationConnector Association="Model.FK_GroupPageAction_Group" />
+        <AssociationConnector Association="Model.FK_Notification_Group" />
+        <AssociationConnector Association="Model.FK_UserGroup_Group" />
+        <AssociationConnector Association="Model.FK_GroupPageAction_PageAction" />
+        <AssociationConnector Association="Model.FK_User_Job" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_Material" />
+        <AssociationConnector Association="Model.FK_MedicalLensDetails_MedicalLensDtailsType" />
+        <AssociationConnector Association="Model.FK_MedicalLensDetails_SPHs" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_Brand" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_CoatingDiagram" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_LenseIndex" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_MedicalLensType" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_MultifocalDesign" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_Supplier" />
+        <AssociationConnector Association="Model.FK_MedicalLensMaster_VersionType" />
+        <AssociationConnector Association="Model.FK_MedicalLensPurchaseDetail_MedicalLensMaster" />
+        <AssociationConnector Association="Model.FK_SalesTransactionDetail_MedicalLensMaster" />
+        <AssociationConnector Association="Model.FK_WarehouseTransactionDetail_MedicalLensMaster" />
+        <AssociationConnector Association="Model.FK_WarehouseVerificationDetail_MedicalLensMaster" />
+        <AssociationConnector Association="Model.FK_MedicalLensPurchaseDetail_PurchaseTransactionMaster" />
+        <AssociationConnector Association="Model.FK_MedicalLensSalesDetails_SalesTransaction" />
+        <AssociationConnector Association="Model.FK_MedicalLensSalesDetails_SPHs" />
+        <AssociationConnector Association="Model.FK_Model_Brand" />
+        <AssociationConnector Association="Model.FK_NotificationResponse_Notification" />
+        <AssociationConnector Association="Model.FK_NotificationSeen_Notification" />
+        <AssociationConnector Association="Model.FK_NotificationResponse_ResponseUser" />
+        <AssociationConnector Association="Model.FK_NotificationSeen_SeenUser" />
+        <AssociationConnector Association="Model.FK_PageAction_SystemPage" />
+        <AssociationConnector Association="Model.FK_UserPageAction_PageAction" />
+        <AssociationConnector Association="Model.FK_ProductCategory_ProductCategory1" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionDetail_PurchaseTransactionMaster" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionMaster_Supplier" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionMaster_Warehouse" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionPayment_PurchaseTransactionMaster" />
+        <AssociationConnector Association="Model.FK_SalesTransaction_Warehouse" />
+        <AssociationConnector Association="Model.FK_SalesTransactionDetail_SalesTransaction" />
+        <AssociationConnector Association="Model.FK_SalesTransactionPayment_SalesTransaction" />
+        <AssociationConnector Association="Model.FK_SupplierContactPerson_Supplier" />
+        <AssociationConnector Association="Model.FK_WarehouseTransaction_Supplier" />
+        <AssociationConnector Association="Model.FK_SystemConfiguration_Upload" />
+        <AssociationConnector Association="Model.FK_Page_Page" />
+        <AssociationConnector Association="Model.FK_User_Upload" />
+        <AssociationConnector Association="Model.FK_UserGroup_User" />
+        <AssociationConnector Association="Model.FK_UserPageAction_User" />
+        <AssociationConnector Association="Model.FK_UserWarehouse_User" />
+        <AssociationConnector Association="Model.FK_Warehouse_User" />
+        <AssociationConnector Association="Model.FK_UserWarehouse_Warehouse" />
+        <AssociationConnector Association="Model.FK_InventoryVerification_Warehouse" />
+        <AssociationConnector Association="Model.FK_WarehouseTransaction_Warehouse" />
+        <AssociationConnector Association="Model.FK_WarehouseTransactionDetail_WarehouseTransaction" />
+        <AssociationConnector Association="Model.FK_WarehouseVerificationDetails_WarehouseVerification" />
+        <AssociationConnector Association="Model.FK_MedicalLensSalesDetails_MedicalLensMaster" />
+        <EntityTypeShape EntityType="Model.CYL" Width="1.5" PointX="7.375" PointY="13.75" />
+        <EntityTypeShape EntityType="Model.Country" Width="1.5" PointX="1.5" PointY="39.375" />
+        <EntityTypeShape EntityType="Model.Region" Width="1.5" PointX="3" PointY="29.625" />
+        <AssociationConnector Association="Model.FK_Doctor_Region" />
+        <AssociationConnector Association="Model.FK_Supplier_Region" />
+        <AssociationConnector Association="Model.FK_Warehouse_Region" />
+        <EntityTypeShape EntityType="Model.City" Width="1.5" PointX="0.75" PointY="30.25" />
+        <AssociationConnector Association="Model.FK_Region_City" />
+        <AssociationConnector Association="Model.FK_Region_Country" />
+        <AssociationConnector Association="Model.FK_City_Country" />
+        <EntityTypeShape EntityType="Model.Branch" Width="1.5" PointX="11" PointY="38.375" />
+        <AssociationConnector Association="Model.FK_Branch_Region" />
+        <AssociationConnector Association="Model.FK_Branch_Region1" />
+        <AssociationConnector Association="Model.FK_Branch_Upload" />
+        <AssociationConnector Association="Model.FK_SalesTransaction_Branch" />
+        <AssociationConnector Association="Model.FK_Branch_Warehouse" />
+        <AssociationConnector Association="Model.FK_Branch_User" />
+        <EntityTypeShape EntityType="Model.SalesReportView" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.SalesTrackingReportView" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.CLSPAndSolutionType" Width="1.5" PointX="8.25" PointY="30.125" />
+        <EntityTypeShape EntityType="Model.UsePeriod" Width="1.5" PointX="14.375" PointY="4.875" />
+        <AssociationConnector Association="Model.FK_Brand_ProductCategory" />
+        <EntityTypeShape EntityType="Model.Grade" Width="1.5" PointX="18.375" PointY="13.875" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="21.875" PointY="15.5" />
+        <AssociationConnector Association="Model.FK_Product_Color" />
+        <AssociationConnector Association="Model.FK_Product_Material" />
+        <AssociationConnector Association="Model.FK_Product_Model" />
+        <AssociationConnector Association="Model.FK_Product_Brand" />
+        <AssociationConnector Association="Model.FK_Product_CLSPAndSolutionType" />
+        <AssociationConnector Association="Model.FK_Product_Grade" />
+        <AssociationConnector Association="Model.FK_Product_ProductCategory" />
+        <AssociationConnector Association="Model.FK_Product_Supplier" />
+        <AssociationConnector Association="Model.FK_Product_UsePeriod" />
+        <AssociationConnector Association="Model.FK_PurchaseTransactionDetail_Product" />
+        <AssociationConnector Association="Model.FK_SalesTransactionDetail_Product" />
+        <AssociationConnector Association="Model.FK_WarehouseTransactionDetail_Product" />
+        <AssociationConnector Association="Model.FK_WarehouseVerificationDetail_Product" />
+        <EntityTypeShape EntityType="Model.Power" Width="1.5" PointX="0.75" PointY="17.875" />
+        <AssociationConnector Association="Model.FK_Product_Power" />
+        <EntityTypeShape EntityType="Model.ColorCategoy" Width="1.5" PointX="5.25" PointY="56.125" />
+        <AssociationConnector Association="Model.FK_Color_ColorCategoies" />
+        <AssociationConnector Association="Model.FK_ColorCategoies_Model" />
+        <AssociationConnector Association="Model.FK_Power_Model" />
+        <AssociationConnector Association="Model.FK_Power_Power" />
+        <AssociationConnector Association="Model.FK_Power_ProductCategory" />
+        <AssociationConnector Association="Model.FK_Power_Brand" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

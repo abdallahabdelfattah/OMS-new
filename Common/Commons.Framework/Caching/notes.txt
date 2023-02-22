@@ -1,0 +1,6 @@
+﻿need to be implemented
+it seems the only good way for this and logging is using dependancy injection
+check below
+http://stackoverflow.com/questions/42049576/asp-net-core-use-memory-cache-outside-controller
+https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory
+https://github.com/RiadKatby/3tier-ddd/tree/8545fe622a9e2fd76e993883b19f963882320df8/RefactorName/RefactorName.GraphDiff/Internal/Caching

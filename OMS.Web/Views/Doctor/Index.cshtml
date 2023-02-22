@@ -1,0 +1,345 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.ManageDoctors;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageDoctors
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ManageDoctors</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Mobile</label>
+                        <input class="form-control" placeholder="@AppResource.Mobile" data-bind="value:SC.Mobile">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Phone</label>
+                        <input class="form-control" placeholder="@AppResource.Phone" data-bind="value:SC.Phone">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @KOWriter.WriteToolbar()
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Country<span style="color:red;">*</span></label>
+                        <select class='form-control' id="CountryId" data-bind='value:Model.CountryId(),options:Countries,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select", event:{ change: countryChanged}'></select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.City<span style="color:red;">*</span></label>
+                        <select class='form-control' id="CityId" data-bind='value:Model.CityId(),options:Cities,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select", event:{ change: cityChanged}'></select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Region<span style="color:red;">*</span></label>
+                        <select class='form-control' id="RegionId" data-bind='value:Model.RegionId(),options:Regions,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select"'></select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Phone</label>
+                        @KOWriter.WriteDecimalTextbox("Model.Phone")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Mobile<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDecimalTextbox("Model.Mobile")
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Address</label>
+                        @KOWriter.WriteTextArea("Model.Address")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new DoctorViewModel()));
+
+            self.Countries= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Countries)));
+            self.Cities = ko.observableArray([]);
+            self.Regions = ko.observableArray([]);
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new DoctorSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.ArabicName", "NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName", "NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Phone", "Phone");
+            self.GridCtrl.AddColumn("@AppResource.Mobile", "Mobile");
+            self.GridCtrl.AddColumn("@AppResource.Address", "Address");
+            self.GridCtrl.AddColumn("@AppResource.Country", "CountryName");
+            self.GridCtrl.AddColumn("@AppResource.City", "CityName");
+            self.GridCtrl.AddColumn("@AppResource.Region", "RegionName");
+
+            self.New = function ()
+            {
+                self.Errors([]);
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+            }
+
+            self.countryChanged = function (viewModel, event) {
+                if (event.target.value == undefined || event.target.value == null) {
+                    self.Cities([]);
+                    self.Regions([]);
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetCities")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ CountryId: event.target.value }),
+                    success: function(result) {
+                        self.Cities(result);
+                        self.Regions([]);
+                    },
+                    failure: function() {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.cityChanged = function (viewModel, event) {
+                if (event.target.value == undefined || event.target.value == null) {
+                    self.Regions([]);
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetRegions")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ CityId: event.target.value }),
+                    success: function(result) {
+                        self.Regions(result);
+                    },
+                    failure: function() {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+
+            self.Save  = function()
+            {
+                waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(), false);
+                            //ko.viewmodel.updatefromModel(self.AllProducts, result.AllProducts);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.Delete  = function()
+            {
+                if(confirm('Are you sure you want to delete this record'))
+                {
+                    waitingDialog.show('Deleting...');
+
+                    self.Errors([]);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete")",
+                        dataType: "json",
+                        data: {Id:self.Model.Id()} ,
+                        success: function (result) {
+                            waitingDialog.hide();
+                            if(result.Exceptions.length==0)
+                            {
+                                ShowDeleteMessage();
+                                self.New();
+
+                                self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                                self.Errors([]);
+                            }
+                            else
+                            {
+                                self.Errors(result.Exceptions);
+                            }
+                        },
+                        failure: function () {
+                            //   alert('Fail');
+                        }
+                    });
+                }
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:selectedrow.Id} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetCities")",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: ko.toJSON({ CountryId : result.Data[0].CountryId }),
+                            success: function (result2) {
+                                ko.viewmodel.fromModel(self.Cities,result2);
+                                self.Cities(result2);
+                                $("#CityId").val(self.Model.CityId());
+                                //self.Model.CityId(result.Data[0].CityId)
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("GetRegions")",
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    data: ko.toJSON({ CityId: result.Data[0].CityId }),
+                                    success: function (result3) {
+                                        self.Regions(result3);
+                                        $("#RegionId").val(self.Model.RegionId());
+
+                                        //$("#CityId").change();
+                                        //self.Model.RegionId(result.Data[0].RegionId);
+                                    },
+                                    failure: function () {
+                                        //   alert('Fail');
+                                    }
+                                });
+                            },
+                            failure: function () {
+                                //   alert('Fail');
+                            }
+                        });
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+
+
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+        });
+        
+    </script>
+}

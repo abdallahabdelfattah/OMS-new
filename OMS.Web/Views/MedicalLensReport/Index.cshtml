@@ -1,0 +1,112 @@
+﻿@using OMS.Model.ViewModel
+@using OMS.Resources
+@using OMS.Web.Utilities
+@using OMS.BLL
+@model OMS.Model.ViewModel.MedicalLenseReportModel
+@{
+    ViewBag.Title = AppResource.MedicalLensData;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            @AppResource.MedicalLensData
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.MedicalLensData</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <form action="Index" method="post">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">@AppResource.Search</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">SPH From</label>
+                            @Html.DropDownListFor(model => model.SphFrom, LookupHelper.SphList(), AppResource.Select)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">SPH To</label>
+                            @Html.DropDownListFor(model => model.SphTo, LookupHelper.SphList(), AppResource.Select)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">CYL From</label>
+                            @Html.DropDownListFor(model => model.CylFrom, LookupHelper.cylList(), AppResource.Select)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">CYL To</label>
+                            @Html.DropDownListFor(model => model.CylTo, LookupHelper.cylList(), AppResource.Select)
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            @foreach (var cylItem in Model.CYLList)
+                            {
+                                <th>@cylItem.Name</th>
+                            }
+                            <th>CYL</th>
+                            @foreach (var sphItem in Model.SPHList)
+                            {
+                                <tr>
+                                    @foreach (var cylItem in Model.CYLList)
+                                    {
+                                        if (Model.MedicalLensList.Any(a => a.CYLId == cylItem.Id && a.SPHId == sphItem.Id))
+                                        {
+                                            <td>@Model.MedicalLensList.FirstOrDefault(a => a.CYLId == cylItem.Id && a.SPHId == sphItem.Id).Qty</td>
+                                        }
+                                        else
+                                        {
+                                            <td>0</td>
+                                        }
+                                    }
+                                    <td style="font-weight:bold">@sphItem.Name</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts
+{
+
+}

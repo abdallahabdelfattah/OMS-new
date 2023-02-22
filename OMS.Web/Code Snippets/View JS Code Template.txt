@@ -1,0 +1,101 @@
+﻿function Controller()
+    {
+        var self = this;
+        self.Errors = ko.viewmodel.fromModel([]);
+        self.ModelJS = @Html.Raw(Json.Encode(new $Model$()));
+        self.Model = ko.viewmodel.fromModel(self.ModelJS);
+        self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new $SC$(){PageIndex=1, RowCount = 10  })));
+    self.GridCtrl = new GridController("@Url.Action("List")",self.SC);
+    self.GridCtrl.Search();
+    self.GridCtrl.AddColumn("Name","Name");
+    self.New = function()
+    {
+        ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+    }
+    self.Save  = function()
+    {
+	self.Errors([]);
+        waitingDialog.show('Saving...');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Save")",
+            contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: ko.toJSON(self.Model),
+        success: function (result) {
+            waitingDialog.hide();
+			
+            if(result.Exceptions.length==0)
+            {
+			ShowSuccessMessage();
+                ko.viewmodel.updateFromModel(self.Model,result.Model);
+				self.GridCtrl.Search();
+            }
+            else
+            {
+                self.Errors(result.Exceptions);
+            }
+        },
+        failure: function () {
+            //   alert('Fail');
+        }
+    });
+    }
+
+   self.Delete  = function()
+    {
+        if(confirm('Are you sure you want to delete this record'))
+        {
+            waitingDialog.show('Deleting...');
+
+            self.Errors([]);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete")",
+                dataType: "json",
+            data: {ID:self.Model.ID()} ,
+            success: function (result) {
+                waitingDialog.hide();
+                if(result.Exceptions.length==0)
+                {
+                    ShowDeleteMessage();
+                    self.New();
+
+                    self.GridCtrl.Search();
+                }
+                else
+                {
+                    self.Errors(result.Exceptions);
+                }
+            },
+            failure: function () {
+                //   alert('Fail');
+            }
+        });
+    }
+    }
+
+    self.OnGridRowSelected = function(selectedrow)
+    {
+        waitingDialog.show('Loading...');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Details")",
+            contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: ko.toJSON({CategoryID:selectedrow.ID,RowCount:0} ),
+        success: function (result) {
+            waitingDialog.hide();
+            ko.viewmodel.updateFromModel(self.Model,result.Data[0]);
+        },
+        failure: function () {
+            //   alert('Fail');
+        }
+    });
+    }
+    self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new Controller(),document.getElementById("content"));
+    });

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Model</Title>
+      <Author>mohamed.gabr</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut> bemodel</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>ContentPage</ID>
+          <ToolTip>ContentPage</ToolTip>
+          <Default>Entity</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using LinkEgypt.Core.BL.DataAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LinkEgypt.Core.Backend.Models
+{
+    public class $ContentPage$SummaryModel :BaseModel
+    {
+        public $ContentPage$SummaryModel()
+        {
+
+        }
+        public $ContentPage$SummaryModel($ContentPage$ entity)
+        {
+
+        }
+
+     
+    }
+
+    public class $ContentPage$Model : $ContentPage$SummaryModel
+    {
+        public $ContentPage$Model() : base()
+        {
+
+        }
+        public $ContentPage$Model($ContentPage$ entity) : base(entity)
+        {
+
+        }
+        public void FillEntity($ContentPage$ entity)
+        {
+
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

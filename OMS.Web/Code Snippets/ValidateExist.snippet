@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>ValidateExist</Title>
+      <Author>mohamed.gabr</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>valexist</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>entity</ID>
+          <ToolTip>entity</ToolTip>
+          <Default>entity</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Name</ID>
+          <ToolTip>Name</ToolTip>
+          <Default>Name</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[if(Context.$entity$s.Where(g=>g.ID != $entity$.ID && g.$Name$ ==$entity$.$Name$).Count()>0)
+                {
+                    exp.AddExistsMessage("$Name$");
+                }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

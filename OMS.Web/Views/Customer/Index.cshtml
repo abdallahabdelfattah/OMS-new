@@ -1,0 +1,583 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.ManageCustomers;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageCustomers
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ManageCustomers</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-success pull-right" data-bind="click:Export" style="margin-left:5px;margin-right:5px">
+                    <i class="fa fa-file-excel-o" style="margin-left:5px;margin-right:5px"></i>
+                    @AppResource.Export
+                </button>
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @*@KOWriter.WriteToolbar()*@
+                        <div class='pull-right'>
+                            <div class='doc-buttons'>
+                                <a href='#' class='btn btn-success btn-xs toolbarBtn' data-bind='click:New'>@AppResource.New</a>
+                                <a href='#' class='btn btn-primary btn-xs toolbarBtn' data-bind='click:Save'>@AppResource.Save</a>
+                                <a href='#' class='btn btn-danger btn-xs toolbarBtn' data-bind='visible:Model.Id() > 0,click:Delete'>@AppResource.Remove</a>
+                                <a class='btn btn-info btn-xs toolbarBtn' data-bind='visible:Model.Id() > 0,attr: { href: "/SalesInvoice/index?customerId="+Model.Id() }'>@AppResource.SalesInvoice</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.FileNo</label>
+                        @KOWriter.WriteTextbox("Model.Code", ",enable:false")
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.FileCreationDate</label>
+                        @KOWriter.WriteTextbox("Model.CreationFileDateStr", ",enable:false")
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Title<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown2("Model.TitleId", "CustomerTitles", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Phone</label>
+                        @KOWriter.WriteIntegerTextbox("Model.Phone")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Mobile<span style="color:red;">*</span></label>
+                        @KOWriter.WriteIntegerTextbox("Model.Mobile")
+                    </div>
+                </div>
+                @*<div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="control-label">@AppResource.FaxNo</label>
+                            @KOWriter.WriteTextbox("Model.FaxNo")
+                        </div>
+                    </div>*@
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Email<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.Email")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.DateOfBirth<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDatePicker("Model.DateOfBirth")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Gender<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.Gender", "Genders", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                @*<br style="clear:both" />*@
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.IdentityNo<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.IdentityNo")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Nationality<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown2("Model.NationalityId", "Nationalities", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.InsuranceCardNo</label>
+                        @KOWriter.WriteTextbox("Model.InsuranceCardNo")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Address</label>
+                        @KOWriter.WriteTextArea("Model.Address")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Notes</label>
+                        @KOWriter.WriteTextArea("Model.Notes")
+                    </div>
+                </div>
+                <br style="clear:both;margin-bottom:20px" /><hr /><br />
+
+                <div class="col-lg-12">
+
+                    <div class="col-lg-6">
+                        <label class="control-label">@AppResource.CustomerDiseases</label>
+                        <div class="row" data-bind="foreach:AllDiseases">
+                            <div class="col-md-6">
+                                <input class="TagsData" type="checkbox" data-bind="checked:Selected,value:Name" />
+                                <span data-bind="text:Name"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-bind="with:LastExaminationComputed">
+                        <label class="control-label">@AppResource.LastExamination</label>
+                        <table class="custom-table">
+                            <tr>
+                                <th></th>
+                                <th>SPH</th>
+                                <th>CYL</th>
+                                <th>AXIS</th>
+                                <th>C.L</th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>Right</td>
+                                    <td>@KOWriter.WriteTextbox("RightSPH", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("RightCYL", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("RightAXIS", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("RightCL", ",enable:false")</td>
+                                </tr>
+                                <tr>
+                                    <td>Left</td>
+                                    <td>@KOWriter.WriteTextbox("LeftSPH", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("LeftCYL", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("LeftAXIS", ",enable:false")</td>
+                                    <td>@KOWriter.WriteTextbox("LeftCL", ",enable:false")</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>I.P.D</td>
+                                    <td>@KOWriter.WriteTextbox("IPD", ",enable:false")</td>
+                                    <td>ADD</td>
+                                    <td>@KOWriter.WriteTextbox("ADDValue", ",enable:false")</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+                <br style="clear:both;margin-bottom:20px" /><hr /><br />
+
+                <div class="col-md-12">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">@AppResource.NewExamination </a></li>
+                            <li><a href="#tab_2" data-toggle="tab">@AppResource.CustomerExaminations </a></li>
+                            <li><a href="#tab_3" data-toggle="tab">@AppResource.CustomerPurchases </a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">@AppResource.DoctorName</label>
+                                            @KOWriter.WriteDropDown2("Model.NewExamination.DoctorId", "Doctors", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">@AppResource.Date</label>
+                                            @KOWriter.WriteDatePicker("Model.NewExamination.Date")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <table class="custom-table">
+                                            <tr>
+                                                <th></th>
+                                                <th>SPH</th>
+                                                <th>CYL</th>
+                                                <th>AXIS</th>
+                                                <th>C.L</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Right</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.RightSPH")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.RightCYL")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.RightAXIS")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.RightCL")</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Left</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.LeftSPH")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.LeftCYL")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.LeftAXIS")</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.LeftCL")</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>I.P.D</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.IPD")</td>
+                                                <td>ADD</td>
+                                                <td>@KOWriter.WriteTextbox("Model.NewExamination.ADDValue")</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_2">
+                                <div class="table-responsive" style="margin:10px">
+                                    <table class="table table-striped b-t text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>R SPH</th>
+                                                <th>R CYL</th>
+                                                <th>R AXIS</th>
+                                                <th>L SPH</th>
+                                                <th>L CYL</th>
+                                                <th>L AXIS</th>
+                                                <th>I.P.D</th>
+                                                <th>ADD</th>
+                                                <th>@AppResource.DoctorName</th>
+                                                <th>@AppResource.Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:ExaminationsComputed">
+                                            <tr>
+                                                <td data-bind="text:RightSPH"></td>
+                                                <td data-bind="text:RightCYL"></td>
+                                                <td data-bind="text:RightAXIS"></td>
+                                                <td data-bind="text:LeftSPH"></td>
+                                                <td data-bind="text:LeftCYL"></td>
+                                                <td data-bind="text:LeftAXIS"></td>
+                                                <td data-bind="text:IPD"></td>
+                                                <td data-bind="text:ADDValue"></td>
+                                                <td data-bind="text:DoctorName"></td>
+                                                <td data-bind="text:StrDate"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_3">
+                                <div class="table-responsive" style="margin:10px">
+                                    <table class="table table-striped b-t text-sm">
+                                        <thead>
+                                            <tr>
+                                                @*<th>@AppResource.Branch</th>*@
+                                                <th>@AppResource.InvoiceNo</th>
+                                                <th>@AppResource.InvoiceDate</th>
+                                                <th>@AppResource.InvoiceAmount</th>
+                                                <th>@AppResource.Paid</th>
+                                                <th>@AppResource.Remaining</th>
+                                                <th>@AppResource.InvoiceStatus</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:CustomerSalesComputed">
+                                            <tr>
+                                                <td data-bind="text:DocNo"></td>
+                                                <td data-bind="text:StrDate"></td>
+                                                <td data-bind="text:CostAmount"></td>
+                                                <td data-bind="text:PaidAmount"></td>
+                                                <td data-bind="text:(CostAmount-PaidAmount)"></td>
+                                                <td data-bind="text:TypeName"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- nav-tabs-custom -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new CustomerModel()));
+            //Fill Drop down values from view bags
+            self.Doctors= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Doctors)));
+            self.CustomerTitles= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.CustomerTitles)));
+            self.Genders= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Genders)));
+            self.Nationalities= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Nationalities)));
+            self.AllDiseases= ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.CustomerDiseases)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new CustomerSearchViewModel(){PageIndex=1, RowCount = 10  })));
+            //-------Start Grid---------
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.Code", "Code");
+            self.GridCtrl.AddColumn("@AppResource.Title", "Title");
+            self.GridCtrl.AddColumn("@AppResource.ArabicName","NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName", "NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Email", "Email");
+            self.GridCtrl.AddColumn("@AppResource.Mobile", "Mobile");
+            //-------End Grid---------
+
+            self.New = function()
+            {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model, self.ModelJS);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetDocumentNumber")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        self.Model.Code(result);
+                    },
+                    failure: function () {
+                    }
+                });
+            }
+
+            self.ExaminationsComputed = ko.computed(function () {
+                return self.Model.Examinations();
+            });
+
+            self.CustomerSalesComputed = ko.computed(function () {
+                return self.Model.CustomerSales();
+            });
+
+            self.LastExaminationComputed = ko.computed(function () {
+                return self.Model.LastExamination();
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDocumentNumber")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: ko.toJSON(self.Model),
+                success: function (result) {
+                    self.Model.Code(result);
+                },
+                failure: function () {
+                }
+            });
+
+            self.Save  = function()
+            {
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        //waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.Delete  = function()
+            {
+                if(confirm('@AppResource.DeleteConfirmationMsg'))
+                {
+                    //waitingDialog.show('Deleting...');
+
+                    self.Errors([]);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete")",
+                        dataType: "json",
+                        data: {Id:self.Model.Id()} ,
+                        success: function (result) {
+                            //waitingDialog.hide();
+                            if(result.Exceptions.length==0)
+                            {
+                                ShowDeleteMessage();
+                                self.New();
+
+                                self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                                self.Errors([]);
+                            }
+                            else
+                            {
+                                self.Errors(result.Exceptions);
+                            }
+                        },
+                        failure: function () {
+                            //   alert('Fail');
+                        }
+                    });
+                }
+            }
+
+            self.Export = function()
+            {
+                var url = "@Url.Action("Export")?";
+                if (self.SC.Name() != "" && self.SC.Name() !=null)
+                {
+                    url += "Name=" + self.SC.Name();
+                }
+               // if (self.SC.Code()  != "" && self.SC.Code() !=null)
+               //{
+               //     url += "&Code=" + self.SC.Code();
+               // }
+               // if (self.SC.CityID() > 0 && self.SC.CityID()  != null) {
+               //     url += "&CityID=" + self.SC.CityID() ;
+               // }
+               
+
+                window.location.href = url;
+
+                @*$.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Export")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.SC),
+                    success: function (result) {
+
+                        if(result.Exceptions.length==0)
+                        {
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+
+                });*@
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:selectedrow.Id} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+                        for (var i = 0; i < self.AllDiseases().length; i++) {
+                            self.AllDiseases()[i].Selected(self.Model.CustomerDisease().find(function (cat) {
+                                return self.AllDiseases()[i].Id() == cat.Id();
+                            }) != undefined);
+                        }
+
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+    </script>
+}

@@ -1,0 +1,286 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@using OMS.BLL;
+@{
+    ViewBag.Title = AppResource.ManageSupplier;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ManageSupplier
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ManageSupplier</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+           
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Code</label>
+                        <input class="form-control" placeholder="@AppResource.Code" data-bind="value:SC.Code">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.SalesManName</label>
+                        <input class="form-control" placeholder="@AppResource.SalesManName" data-bind="value:SC.SalesManName">
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.ExternalSupplier</label>
+                        @KOWriter.WriteCheckbox("SC.IsExternal")
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        <div class='pull-right'>
+                            <div class='doc-buttons'>
+                                <a href='#' class='btn btn-success btn-xs toolbarBtn' data-bind='click:New'>@AppResource.New</a>
+                                <a href='#' class='btn btn-primary btn-xs toolbarBtn' data-bind='click:Save'>@AppResource.Save</a>
+                                <a href='#' class='btn btn-danger btn-xs toolbarBtn' data-bind='visible:Model.Id()>0,click:Delete'>@AppResource.Remove</a>
+                                <a href='#' class='btn btn-success btn-xs toolbarBtn' data-bind='visible:Model.Id()>0,click:NewPurchseBill'>@AppResource.PurchaseBill</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Code</label>
+                        @KOWriter.WriteTextbox("Model.Code")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.SalesManName</label>
+                        @KOWriter.WriteTextbox("Model.SalesManName")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Email<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.Email")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Phone</label>
+                        @KOWriter.WriteDecimalTextbox("Model.Phone")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Mobile<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDecimalTextbox("Model.Mobile")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.FaxNo</label>
+                        @KOWriter.WriteTextbox("Model.FaxNo", additionalKOattributes: ",class:NumericOnly")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.BankName</label>
+                        @KOWriter.WriteTextbox("Model.BankName")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.BankAccountNo</label>
+                        @KOWriter.WriteTextbox("Model.BankAccount")
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Address</label>
+                        @KOWriter.WriteTextbox("Model.Address")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@section scripts
+{
+    <script>
+        function Controller() {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new SupplierModel()));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SupplierSearchViewModel() {PageIndex = 1, RowCount = 10})));
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.Code", "Code");
+            self.GridCtrl.AddColumn("@AppResource.ArabicName", "NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName", "NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Email", "Email");
+            self.GridCtrl.AddColumn("@AppResource.Phone", "Phone");
+            self.GridCtrl.AddColumn("@AppResource.Mobile", "Mobile");
+            self.GridCtrl.AddColumn("@AppResource.SalesManName", "SalesManName");
+            self.GridCtrl.AddColumn("@AppResource.Address", "Address");
+
+
+            self.NewPurchseBill = function (selectedrow) {
+                debugger;
+                var supplierId = self.Model.Id();
+                var url = window.location.origin + "/PurchaseBill/Index?supplierId=" + supplierId;
+
+                window.location.href = url;
+            }
+
+            self.New = function() {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model, self.ModelJS);
+            }
+
+            self.ContactsComputed = ko.computed(function() {
+                return self.Model.ContactPersons();
+            });
+            self.AddNewContact = function() {
+                var EmptyDetailModel = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new SuppilerContactPersonModel())));
+                self.Model.ContactPersons.push(EmptyDetailModel);
+            }
+            self.RemoveFromContacts = function(contact) {
+                if (contact.ID() == 0) {
+                    self.Model.ContactPersons.remove(contact);
+                }
+            }
+
+
+            self.Save = function() {
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function(result) {
+                        //waitingDialog.hide();
+
+                        if (result.Exceptions.length == 0) {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model, result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(), false);
+                            //ko.viewmodel.updatefromModel(self.AllProducts, result.AllProducts);
+
+                            self.Errors([]);
+                        } else {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function() {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.Delete = function() {}
+
+            self.OnGridRowSelected = function(selectedrow) {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ Id: selectedrow.Id }),
+                    success: function(result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+
+                        $('html, body').animate({
+                                scrollTop: $("#scrollTo").offset().top
+                            },
+                            1000);
+                    },
+                    failure: function() {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function() {
+            ko.applyBindings(new Controller(), document.getElementById("content"));
+        });
+        HoverActiveLink("27");
+        HoverSubActiveLink("Sub51")
+    </script>
+}

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8AB3C8DD-C550-4A71-8290-6ED9DBC1441D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OMS.Model</RootNamespace>
+    <AssemblyName>OMS.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemEnums\Enums.cs" />
+    <Compile Include="ViewModel\BaseModel.cs" />
+    <Compile Include="ViewModel\BrandViewModel.cs" />
+    <Compile Include="ViewModel\ColorCategoryModel.cs" />
+    <Compile Include="ViewModel\PowerModel.cs" />
+    <Compile Include="ViewModel\EditProductGroupModel.cs" />
+    <Compile Include="ViewModel\CoatingDiagramModel.cs" />
+    <Compile Include="ViewModel\ColorViewModel.cs" />
+    <Compile Include="ViewModel\EmailViewModel.cs" />
+    <Compile Include="ViewModel\JobModel.cs" />
+    <Compile Include="ViewModel\LenseIndexModel.cs" />
+    <Compile Include="ViewModel\MedicalLensDetailsListVM.cs" />
+    <Compile Include="ViewModel\MedicalLensDetailsVM.cs" />
+    <Compile Include="ViewModel\MedicalLenseReportModel.cs" />
+    <Compile Include="ViewModel\MedicalLensDetailsViewModel.cs" />
+    <Compile Include="ViewModel\MedicalLensMasterViewModel.cs" />
+    <Compile Include="ViewModel\MultifocalDesignModel.cs" />
+    <Compile Include="ViewModel\SalesTrackingReportViewViewModel.cs" />
+    <Compile Include="ViewModel\PurchaseReportViewViewModel.cs" />
+    <Compile Include="ViewModel\SC\PowerSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\EditProductGroupSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\CoatingDiagramSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\ColorSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\CYLSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\JobSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\MedicalLensDetailsSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\MedicalLensMasterSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\MultifocalDesignSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\MedicalLensSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SalesTrackingReportViewSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SPHSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\VersionTypeSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\LenseIndexSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\MaterialSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\ModelSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\BrandSearchViewModel.cs" />
+    <Compile Include="ViewModel\CustomerInvoiceModel.cs" />
+    <Compile Include="ViewModel\ModelViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\ProfileSummaryModel.cs" />
+    <Compile Include="ViewModel\PurchaseTransactionDetailsViewModel.cs" />
+    <Compile Include="ViewModel\PurchaseTransactionMasterViewModel.cs" />
+    <Compile Include="ViewModel\SalesReturnModel.cs" />
+    <Compile Include="ViewModel\SalesInvoiceModel.cs" />
+    <Compile Include="ViewModel\SC\BrandSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\EmailSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\ProductReportViewSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\ProductSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\PurchaseReportViewSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\PurchaseTransactionMasterSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SalesTransactionSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SmsSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\WarehouseVerificationSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\WarehouseTransactionSearchViewModel.cs" />
+    <Compile Include="ViewModel\SmsSummeryModel.cs" />
+    <Compile Include="ViewModel\SystemConfigurationModel.cs" />
+    <Compile Include="ViewModel\ExaminationModel.cs" />
+    <Compile Include="ViewModel\DiseaseModel.cs" />
+    <Compile Include="ViewModel\CurrencyModel.cs" />
+    <Compile Include="ViewModel\BranchModel.cs" />
+    <Compile Include="ViewModel\SC\BaseSearchViewModel.cs" />
+    <Compile Include="ViewModel\CategoryModel.cs" />
+    <Compile Include="ViewModel\CityModel.cs" />
+    <Compile Include="ViewModel\SC\DiseaseSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\ExaminationSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\DoctorSearchViewModel.cs" />
+    <Compile Include="ViewModel\DoctorViewModel.cs" />
+    <Compile Include="ViewModel\CountryModel.cs" />
+    <Compile Include="ViewModel\SC\CountrySearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\CustomerSearchViewModel.cs" />
+    <Compile Include="ViewModel\CustomerModel.cs" />
+    <Compile Include="ViewModel\GroupModel.cs" />
+    <Compile Include="ViewModel\HomeStatisticsModel.cs" />
+    <Compile Include="ViewModel\LookupModel.cs" />
+    <Compile Include="ViewModel\MenuModel.cs" />
+    <Compile Include="ViewModel\NotificationModel.cs" />
+    <Compile Include="ViewModel\RegionModel.cs" />
+    <Compile Include="ViewModel\SalesTransactionModel.cs" />
+    <Compile Include="ViewModel\SC\CategorySearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\CitySearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\CurrencySearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\BranchSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\GroupSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SystemConfigurationSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SystemPageSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\UserSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\SupplierSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\WarehouseSearchViewModel.cs" />
+    <Compile Include="ViewModel\SC\RegionSearchViewModel.cs" />
+    <Compile Include="ViewModel\SupplierModel.cs" />
+    <Compile Include="ViewModel\SystemPageModel.cs" />
+    <Compile Include="ViewModel\UserModel.cs" />
+    <Compile Include="ViewModel\VersionTypeModel.cs" />
+    <Compile Include="ViewModel\WarehouseTransferModel.cs" />
+    <Compile Include="ViewModel\WarehouseTransactionModel.cs" />
+    <Compile Include="ViewModel\WarehouseModel.cs" />
+    <Compile Include="ViewModel\WarehouseVerificationDetailsModel.cs" />
+    <Compile Include="ViewModel\WarehouseVerificationMasterModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OMS.DAL\OMS.DAL.csproj">
+      <Project>{d435d15a-2c0b-4bd3-91b1-1ab803339c0c}</Project>
+      <Name>OMS.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

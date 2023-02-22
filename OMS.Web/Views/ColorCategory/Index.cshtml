@@ -1,0 +1,252 @@
+﻿@using OMS.Model.ViewModel;
+@using OMS.Web.Utilities;
+@using OMS.Resources;
+@{
+    ViewBag.Title = AppResource.ManageBrands;
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            @AppResource.ColorCategory
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> @AppResource.Home</a></li>
+            <li><a href="#">@AppResource.SetupData</a></li>
+            <li class="active">@AppResource.ColorCategory</li>
+        </ol>
+    </section>
+    <section id="content" class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Search</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>@AppResource.Name</label>
+                        <input class="form-control" placeholder="@AppResource.EnterName" data-bind="value:SC.Name">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Model<span style="color:red;">*</span></label>
+                        @KOWriter.WriteDropDown("Model.SearchModelId", "BrandModels", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" data-bind="click:GridCtrl.Search" class="btn btn-primary pull-right">@AppResource.Search</button>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.List</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <paged-grid params="GridCtrl:GridCtrl"></paged-grid>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@AppResource.Details</h3>
+                <div class="box-tools pull-right">
+                    <div class="form-group">
+                        @KOWriter.WriteToolbar()
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" id="scrollTo">
+                @KOWriter.WriteErrorMessage()
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.ArabicName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameAr")
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.EnglishName<span style="color:red;">*</span></label>
+                        @KOWriter.WriteTextbox("Model.NameEn")
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Brand<span style="color:red;">*</span></label>
+                        <select class='form-control' id="BrandId" data-bind='value:Model.BrandId,options:Brands,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select", event:{ change: BrandChanged}'></select>
+                        @*@KOWriter.WriteDropDown("Model.BrandId", "Brands", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")*@
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">@AppResource.Model<span style="color:red;">*</span></label>
+                         @KOWriter.WriteDropDown("Model.ModelId", "BrandModels", additionalKOattributes: $",optionsCaption:\"{AppResource.Select}\"")
+                        @*<select class='form-control' id="ModelId" data-bind='value:Model.ModelId,options:BrandModels,optionsText:"Name",optionsValue:"Id",optionsCaption:"@AppResource.Select"'></select>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>  
+
+    </section>
+</div>
+@section scripts
+{
+    <script>
+        function Controller()
+        {
+            var self = this;
+            self.Errors = ko.viewmodel.fromModel([]);
+            self.ModelJS = @Html.Raw(Json.Encode(new ColorCategoryModel()));
+            self.BrandModels = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.BrandModels)));
+            self.Brands = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(ViewBag.Brands)));
+
+            self.Model = ko.viewmodel.fromModel(self.ModelJS);
+            self.SC = ko.viewmodel.fromModel(@Html.Raw(Json.Encode(new ColorSearchViewModel(){PageIndex=1, RowCount = 1  })));
+
+            self.GridCtrl = new GridController("@Url.Action("List")", self.SC);
+            self.GridCtrl.Search();
+            self.GridCtrl.AddColumn("@AppResource.ArabicName", "NameAr");
+            self.GridCtrl.AddColumn("@AppResource.EnglishName", "NameEn");
+            self.GridCtrl.AddColumn("@AppResource.Model", "ModelName");
+
+
+            self.New = function()
+            {
+                self.Errors([]);
+
+                ko.viewmodel.updateFromModel(self.Model,self.ModelJS);
+            }
+            self.BrandChanged = function (viewModel, event) {
+                if (event.target.value == undefined || event.target.value == null) {
+                    self.BrandModels([]);
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetBrandModels")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({ BrandId: event.target.value }),
+                    success: function(result) {
+                        self.BrandModels(result);
+                    },
+                    failure: function() {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.Save  = function()
+            {
+                //waitingDialog.show('Saving...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON(self.Model),
+                    success: function (result) {
+                        //waitingDialog.hide();
+
+                        if(result.Exceptions.length==0)
+                        {
+                            ShowSuccessMessage();
+                            ko.viewmodel.updateFromModel(self.Model,result.Model);
+
+                            self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                            self.Errors([]);
+                        }
+                        else
+                        {
+                            self.Errors(result.Exceptions);
+                        }
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+
+            self.Delete  = function()
+            {
+                if(confirm('@AppResource.DeleteConfirmationMsg'))
+                {
+                    //waitingDialog.show('Deleting...');
+
+                    self.Errors([]);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete")",
+                        dataType: "json",
+                        data: {Id:self.Model.Id()} ,
+                        success: function (result) {
+                            //waitingDialog.hide();
+                            if(result.Exceptions.length==0)
+                            {
+                                ShowDeleteMessage();
+                                self.New();
+
+                                self.GridCtrl.GoToPage(self.GridCtrl.PageIndex(),false);
+
+                                self.Errors([]);
+                            }
+                            else
+                            {
+                                self.Errors(result.Exceptions);
+                            }
+                        },
+                        failure: function () {
+                            //   alert('Fail');
+                        }
+                    });
+                }
+            }
+
+            self.OnGridRowSelected = function(selectedrow)
+            {
+                self.Errors([]);
+                //waitingDialog.show('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Details")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: ko.toJSON({Id:selectedrow.Id} ),
+                    success: function (result) {
+                        //waitingDialog.hide();
+                        self.Errors([]);
+                        ko.viewmodel.updateFromModel(self.Model, result.Data[0]);
+
+                        $('html, body').animate({
+                            scrollTop: $("#scrollTo").offset().top
+                        }, 1000);
+                    },
+                    failure: function () {
+                        //   alert('Fail');
+                    }
+                });
+            }
+            self.GridCtrl.OnRowSelectedCallBack = self.OnGridRowSelected;
+        }
+
+        $(document).ready(function () {
+            ko.applyBindings(new Controller(),document.getElementById("content"));
+        });
+
+    </script>
+}
